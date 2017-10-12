@@ -1,0 +1,266 @@
+package mumbai.d360.data;
+
+import com.google.android.gms.maps.model.LatLng;
+
+public interface StationLocation {
+
+	// **************HARBER LINE STATION START******************
+
+	LatLng MUMBAI_CST = new LatLng( 18.941046,72.834838);
+
+	LatLng MASJID_BUNDER = new LatLng( 18.951965,72.838336);
+
+	LatLng SANDHURST_ROAD = new LatLng( 18.961493,72.839913);
+
+	LatLng DOCKYARD_ROAD = new LatLng( 18.966404,72.844161);
+
+	LatLng REAY_ROAD = new LatLng( 18.977321,72.844204);
+
+	LatLng COTTON_GREEN = new LatLng( 18.986574,72.843303);
+
+	LatLng SEWRI = new LatLng( 18.998869,72.854504);
+
+	LatLng WADALA_ROAD = new LatLng( 19.016073,72.858796);
+
+	LatLng GURU_TEGH_BAHADUR_NAGAR = new LatLng( 19.037778,72.864031);
+
+	LatLng CHUNABHATTI = new LatLng( 19.051611,72.868924);
+
+	LatLng KURLA = new LatLng( 19.065322,72.879352);
+
+	LatLng TILAK_NAGAR = new LatLng( 19.065891,72.889738);
+
+	LatLng CHEMBUR = new LatLng( 19.062645,72.901196);
+
+	LatLng GOVANDI = new LatLng( 19.055059,72.915401);
+
+	LatLng MANKHURD = new LatLng( 19.047839,72.930936);
+
+	LatLng VASHI = new LatLng( 19.063334,72.998571);
+
+	LatLng SANPADA = new LatLng( 19.066092,73.009301);
+
+	LatLng JUINAGAR = new LatLng( 19.055627,73.017969);
+
+	LatLng NERUL = new LatLng( 19.033397,73.017969);
+
+	LatLng SEAWOODS_DARAVE = new LatLng( 19.022321,73.019428);
+
+	LatLng CBD_BELAPUR = new LatLng( 19.019035,73.039169);
+
+	LatLng KHARGHAR = new LatLng( 19.025891,73.059082);
+
+	LatLng MANSAROVAR = new LatLng(19.016763,73.080496);
+
+	LatLng KHANDESHWAR = new LatLng( 19.007471,73.094701);
+
+	LatLng PANVEL = new LatLng( 18.990835,73.121481);
+
+	LatLng KINGS_CIRCLE = new LatLng( 19.032281,72.857218);
+
+	LatLng MAHIM = new LatLng( 19.040699,72.846865);
+
+	LatLng BANDRA = new LatLng( 19.054857,72.840601);
+
+	LatLng KHAR_ROAD = new LatLng( 19.069905,72.840213);
+
+	LatLng SANTACRUZ = new LatLng( 19.083087,72.841715);
+
+	LatLng VILE_PARLE = new LatLng(19.099714,72.843904);
+
+	LatLng ANDHERI = new LatLng(19.117192,72.846522);
+
+	LatLng AIROLI =new LatLng( 19.158668,72.999343);
+
+	LatLng RABALE =  new LatLng( 19.137019,73.002648);
+
+	LatLng GHANSOLI = new LatLng( 19.116259,73.007068);
+
+	LatLng KOPAR_KHAIRANE = new LatLng(19.103202,73.011317);
+
+	LatLng TURBHE = new LatLng( 19.076232,73.017797);
+
+	// **************HARBER LINE STATION END******************
+
+	// **************WESTERN LINE STATION START
+
+	LatLng CHURCHGATE = new LatLng( 18.935111,72.827253);
+
+	LatLng MARINE_LINES = new LatLng( 18.945785,72.823734);
+
+	LatLng CHARNI_ROAD = new LatLng( 18.951631,72.818584);
+
+	LatLng GRANT_ROAD = new LatLng( 18.963685,72.816138);
+
+	LatLng MUMBAI_CENTRAL = new LatLng( 18.970949,72.818756);
+
+	LatLng MAHALAKSHMI = new LatLng( 18.982353,72.824034);
+
+	LatLng LOWER_PAREL = new LatLng( 18.995663,72.829656);
+
+	LatLng ELPHINSTONE_ROAD = new LatLng( 19.007471,72.835836);
+
+	LatLng DADAR = new LatLng( 19.019522,72.843174);
+
+	LatLng MATUNGA_ROAD = new LatLng( 19.028447,72.846779);
+
+	LatLng JOGESHWARI = new LatLng( 19.136492,72.848796);
+
+	LatLng GOREGAON = new LatLng( 19.165194,72.849141);
+
+	LatLng MALAD = new LatLng( 19.186839,72.848796);
+
+	LatLng KANDIVALI = new LatLng( 19.204551,72.851972);
+
+	LatLng BORIVALI = new LatLng( 19.229149,72.856907);
+
+	LatLng DAHISAR = new LatLng( 19.249975,72.859354);
+
+	LatLng MIRA_ROAD = new LatLng( 19.280035,72.855749);
+
+	LatLng BHAYANDAR = new LatLng( 19.310049,72.852787);
+
+	LatLng NAIGAON = new LatLng(19.351396,72.846179);
+
+	LatLng Nalla_Sopara = new LatLng( 19.417706,72.818884);
+
+	LatLng VIRAR = new LatLng( 19.455141,72.812061);
+
+	LatLng VAITARNA = new LatLng( 19.518173,72.850171);
+
+	LatLng SAPHALE = new LatLng( 19.576813,72.821846);
+
+	LatLng KELVA_ROAD = new LatLng( 19.624843,72.790989);
+
+	LatLng PALGHAR = new LatLng( 19.697789,72.772278);
+
+	LatLng UMROLI = new LatLng( 19.754748,72.760391);
+
+	LatLng BOISAR = new LatLng( 19.797959,72.761549);
+
+	LatLng VANGAON = new LatLng( 19.883621,72.763094);
+
+	LatLng DAHANU_ROAD = new LatLng( 19.991578,72.743482);
+
+	// **************WESTERN LINE STATION END
+
+	// **************CENTRAL LINE STATION START
+
+	LatLng BYCULLA = new LatLng( 18.976591,72.832789);
+
+	LatLng CHINCHPOKLI = new LatLng( 18.986979,72.832789);
+
+	LatLng CURREY_ROAD = new LatLng( 18.994001,72.832918);
+
+	LatLng PAREL = new LatLng( 19.009216,72.837595);
+
+	LatLng MATUNGA = new LatLng(19.027433,72.850084);
+
+	LatLng SION = new LatLng( 19.047596,72.863945);
+
+	LatLng VIDYAVIHAR = new LatLng(19.079518,72.897377);
+
+	LatLng GHATKOPAR = new LatLng(19.085804,72.908234);
+
+	LatLng VIKHROLI = new LatLng( 19.111921,72.928191);
+
+	LatLng KANJURMARG = new LatLng( 19.128261,72.928018);
+
+	LatLng BHANDUP = new LatLng( 19.142857,72.938146);
+
+	LatLng NAHUR = new LatLng( 19.154654,72.946257);
+
+	LatLng MULUND = new LatLng( 19.171721,72.956256);
+
+	LatLng THANE = new LatLng( 19.186069,72.975955);
+
+	LatLng KALWA = new LatLng( 19.195351,72.996253);
+
+	LatLng MUMBRA = new LatLng( 19.190731,73.023505);
+
+	LatLng DIVA = new LatLng( 19.189393,73.042559);
+
+	LatLng KOPAR = new LatLng( 19.210671,73.076934);
+
+	LatLng DOMBIVLI = new LatLng( 19.218329,73.086762);
+
+	LatLng THAKURLI = new LatLng( 19.225988,73.097963);
+
+	LatLng KALYAN = new LatLng( 19.235429,73.129849);
+
+	LatLng VITTHALWADI = new LatLng( 19.228298,73.149204);
+
+	LatLng ULHASNAGAR = new LatLng( 19.218086,73.163065);
+
+	LatLng AMBARNATH = new LatLng( 19.210143,73.184351);
+
+	LatLng BADLAPUR = new LatLng(19.167141,73.239798);
+
+	LatLng VANGANI = new LatLng( 19.094199,73.300652);
+
+	LatLng SHELU = new LatLng( 19.063415,73.317689);
+
+	LatLng NERAL = new LatLng( 19.027191,73.318848);
+
+	LatLng BHIVPURI_ROAD = new LatLng( 18.970057,73.331465);
+
+	LatLng KARJAT = new LatLng( 18.910163,73.320543);
+
+	LatLng PALASDARI = new LatLng( 18.884321,73.320822);
+
+	LatLng KELAVLI = new LatLng( 18.845701,73.318762);
+
+	LatLng DOLAVLI = new LatLng( 18.834327,73.319964);
+
+	LatLng LOWJEE = new LatLng( 18.808696,73.335371);
+
+	LatLng KHOPOLI = new LatLng( 18.789723,73.344812);
+
+	LatLng SHAHAD = new LatLng( 19.244384,73.158302);
+
+	LatLng AMBIVLI = new LatLng( 19.267842,73.171691);
+
+	LatLng TITVALA = new LatLng( 19.296886,73.203191);
+
+	LatLng KHADAVLI = new LatLng( 19.356862,73.218898);
+
+	LatLng Vasind = new LatLng( 19.406656,73.267478);
+
+	LatLng ASANGAON = new LatLng( 19.439601,73.307905);
+
+	LatLng ATGAON = new LatLng( 19.503853,73.328032);
+
+	LatLng KHARDI = new LatLng( 19.580453,73.393907);
+
+	LatLng UMBERALI = new LatLng( 19.647963,73.472657);
+
+	LatLng KASARA = new LatLng( 19.647963,73.472657);
+
+	LatLng VASAI_ROAD = new LatLng( 19.382692,72.831759);
+
+	LatLng JUCHANDRA = new LatLng( 19.360222,72.872657);
+
+	LatLng KAMAN_ROAD = new LatLng( 19.336737,72.918405);
+
+	LatLng KHARBAO = new LatLng( 19.298385,72.983765);
+
+	LatLng BHIWANDI = new LatLng( 19.268774,73.045907);
+
+	LatLng DATIVALI = new LatLng( 19.187083,73.059124);
+
+	LatLng NILAJE = new LatLng( 19.155384,73.080024);
+
+	LatLng TALOJA = new LatLng( 19.079274,73.087749);
+
+	LatLng NAVADE_ROAD = new LatLng( 19.052951,73.103284);
+
+	LatLng KALAMBOLI = new LatLng( 19.035304,73.114571);
+
+	LatLng JUMMAPATTI = new LatLng( 19.001628,73.302283);
+
+	LatLng WATER_PIPE = new LatLng( 19.007634,73.289431);
+
+	LatLng AMAN_LODGE = new LatLng( 18.996921,73.276104);
+
+	LatLng MATHERAN = new LatLng( 18.990104,73.270869);
+}

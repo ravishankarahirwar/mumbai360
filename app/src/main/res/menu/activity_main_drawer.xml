@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Trains">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_map"
+                    android:icon="@drawable/ic_menu_map"
+                    android:title="Map" />
+                <item
+                    android:id="@+id/nav_local"
+                    android:icon="@drawable/ic_train_metro"
+                    android:title="Local" />
+                <item
+                    android:id="@+id/nav_metro"
+                    android:icon="@drawable/ic_train_metro"
+                    android:title="Metro" />
+                <item
+                    android:id="@+id/nav_mono"
+                    android:icon="@drawable/ic_train_mono"
+                    android:title="Mono" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

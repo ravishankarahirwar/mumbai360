@@ -1,0 +1,122 @@
+<resources>
+        <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyBqlSBLi7iUeXXm0hQd0s1OXYwzeM-4GsY</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="app_name">Mumbai 360\u00B0</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="hi_charchgate">चर्चगेट</string>
+    <string name="charchgate">charchgate</string>
+
+    <string name="harber">HARBOUR</string>
+    <string name="center">CENTRAL</string>
+    <string name="western">WESTERN</string>
+
+    <string name="toward_surat">SURAT</string>
+    <string name="toward_roha">ROHA</string>
+    <string name="toward_kasara_khopoli">KASARA/KHOPOLI</string>
+
+    <string name="no">No</string>
+    <string name="time">TIME</string>
+    <string name="station_name">STATION</string>
+    <string name="duration">DURATION</string>
+
+    <string name="up">UP</string>
+    <string name="down">DOWN</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_location">Location</string>
+    <string name="menu_voice">Voice Search</string>
+    <string name="from_station_name">094942172668</string>
+
+
+    <!--     CENTRAL LINE STATION -->
+    <string name="mumbai_cst">MUMBAI CST</string>
+    <string name="masjid">MASJID</string>
+    <string name="sandurst_rd">SANDHURST RD</string>
+    <string name="byculla">BYCULLA</string>
+    <string name="chinchpokli">CHINCHPOKLI</string>
+    <string name="curry_road">CURRY ROAD</string>
+    <string name="parel">PAREL</string>
+    <string name="dadar">DADAR</string>
+    <string name="matunga">MATUNGA</string>
+    <string name="sion">SION</string>
+    <string name="kurla">KURLA</string>
+    <string name="vidya_vihar">VIDYA VIHAR</string>
+    <string name="ghatkopar">GHATKOPAR</string>
+    <string name="vikhroli">VIKHROLI</string>
+    <string name="kanjur_marg">KANJUR MARG</string>
+    <string name="bhandup">BHANDUP</string>
+    <string name="nahur">NAHUR</string>
+    <string name="mulund">MULUND</string>
+    <string name="thane">THANE</string>
+    <string name="kalwa">KALWA</string>
+    <string name="mumbra">MUMBRA</string>
+    <string name="diva">DIVA</string>
+    <string name="kopar">KOPAR</string>
+    <string name="dombivli">DOMBIVLI</string>
+    <string name="thakurli">THAKURLI</string>
+    <string name="kalyan">KALYAN</string>
+    <string name="vithalwadi">VITHALWADI</string>
+    <string name="ulhasnagar">ULHASNAGAR</string>
+    <string name="ambernath">AMBERNATH</string>
+    <string name="badlapur">BADLAPUR</string>
+    <string name="vangani">VANGANI</string>
+    <string name="shelu">SHELU</string>
+    <string name="neral">NERAL</string>
+    <string name="bhivpuri_rd">BHIVPURI RD</string>
+    <string name="karjat">KARJAT</string>
+    <string name="palasdari">PALASDARI</string>
+    <string name="kelavli">KELAVLI</string>
+    <string name="dolavli">DOLAVLI</string>
+    <string name="lowjee">LOWJEE</string>
+    <string name="khopoli">KHOPOLI</string>
+
+    <string name="Shahad">Shahad</string>
+    <string name="Ambivli">Ambivli</string>
+    <string name="Titvala">Titvala</string>
+    <string name="Khadavli">Khadavli</string>
+    <string name="Vasind">Vasind</string>
+    <string name="Asangaon">Asangaon</string>
+    <string name="Atgaon">Atgaon</string>
+    <string name="Khardi">Khardi</string>
+    <string name="Umberali">Umberali</string>
+    <string name="Kasara">Kasara</string>
+    <string name="Vasai_Road">Vasai Road</string>
+    <string name="Juchandra">Juchandra</string>
+    <string name="Kaman_Road">Kaman Road</string>
+    <string name="Kharbao">Kharbao</string>
+    <string name="Bhiwandi">Bhiwandi</string>
+    <string name="Dativali">Dativali</string>
+    <string name="Nilaje">Nilaje</string>
+    <string name="Taloja">Taloja</string>
+    <string name="Navade_Road">Navade Road</string>
+    <string name="Kalamboli">Kalamboli</string>
+    <string name="Panvel">Panvel</string>
+    <string name="Jummapatti">Jummapatti</string>
+    <string name="Water_pipe">Water pipe</string>
+    <string name="Aman_Lodge">Aman_Lodge</string>
+    <string name="Matheran">Matheran</string>
+    <!-- <string name=""></string> -->
+    <!-- <string name=""></string> -->
+    <!-- <string name=""></string> -->
+    <string name="splash_text"> Mumbai\n360\u00B0</string>
+    <string name="title_activity_up_down">UpDownActivity</string>
+    <string name="title_activity_train_schedule">TrainScheduleActivity</string>
+
+    <string name="action_voice_rec">action voice rec</string>
+    <string name="action_location">action location</string>
+    <string name="action_taxi">action taxi</string>
+    <string name="action_change_colors">change style</string>
+</resources>
