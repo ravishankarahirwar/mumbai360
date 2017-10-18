@@ -28,6 +28,7 @@ import mumbai.d360.dataprovider.mono.MonoStationName;
 import mumbai.d360.model.Station;
 import mumbai.d360.model.Train;
 import mumbai.d360.utils.LineIndicator;
+import mumbai.d360.utils.TrainConstants;
 
 import static android.R.attr.lines;
 
@@ -108,13 +109,15 @@ public class UpDownActivityFragment extends Fragment {
         mUpList.setLayoutManager(mLayoutManager);
         mUpList.setItemAnimator(new DefaultItemAnimator());
         mUpList.setAdapter(mAdapterUp);
+//        mUpList.smoothScrollToPosition(TrainConstants.UP_SELECTED_TRAIN_POSITION);
+        mUpList.getLayoutManager().scrollToPosition(TrainConstants.UP_SELECTED_TRAIN_POSITION);
+
 
         mAdapterDown = new UpDownAdapter(mContext, tAllDownTrain, mListener);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getActivity().getApplicationContext());
         mDownList.setLayoutManager(mLayoutManager1);
         mDownList.setItemAnimator(new DefaultItemAnimator());
         mDownList.setAdapter(mAdapterDown);
-
-        Toast.makeText(getContext(), "onStationSelect", Toast.LENGTH_SHORT).show();
+        mDownList.getLayoutManager().scrollToPosition(TrainConstants.DOWN_SELECTED_TRAIN_POSITION);
     }
 }

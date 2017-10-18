@@ -18,24 +18,18 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+            android:launchMode="singleTop">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.SEARCH" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.UpDownActivity"
             android:label="@string/title_activity_up_down"
-            android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTop"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mumbai.d360.activity.MainActivity" />
@@ -43,8 +37,7 @@
         <activity
             android:name=".activity.TrainScheduleActivity"
             android:label="@string/title_activity_train_schedule"
-            android:parentActivityName=".activity.UpDownActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activity.UpDownActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mumbai.d360.activity.UpDownActivity" />

@@ -3,7 +3,6 @@ package mumbai.d360.dataprovider.search;
 import android.content.Context;
 import android.widget.Filter;
 
-import com.quinny898.library.persistentsearch.SearchResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import mumbai.d360.R;
+import mumbai.d360.data.StationLocation;
 import mumbai.d360.dataprovider.metro.MetroStationNames;
 import mumbai.d360.dataprovider.mono.MonoStationName;
 import mumbai.d360.model.Station;
@@ -20,27 +20,26 @@ import mumbai.d360.utils.LineIndicator;
 
 public class SearchData {
 
-    public ArrayList<SearchResult> getSearchResult(Context context) {
-        ArrayList<SearchResult> searchResults = new ArrayList<>();
-        List<Station> searchableData = getSearchableData();
-        for (Station station : searchableData) {
-            SearchResult option = new SearchResult(station.getName(),
-                    context.getResources().getDrawable(R.drawable.ic_history));
-            searchResults.add(option);
-        }
-        return searchResults;
-    }
+//    public ArrayList<SearchResult> getSearchResult(Context context) {
+//        ArrayList<SearchResult> searchResults = new ArrayList<>();
+//        List<Station> searchableData = getSearchableData();
+//        for (Station station : searchableData) {
+//            SearchResult option = new SearchResult(station.getName(),
+//                    context.getResources().getDrawable(R.drawable.ic_history));
+//            searchResults.add(option);
+//        }
+//        return searchResults;
+//    }
 
     private List<Station> getSearchableData() {
         List<Station> searchableData = new ArrayList<>();
-        searchableData.add(new Station("1", "Mumbai CST", "CSTM", LineIndicator.HARBOUR));
-        searchableData.add(new Station("1", "Mumbai CST", "CSTM", LineIndicator.HARBOUR));
-        searchableData.add(new Station("2", "Masjid Bunder", "MSD", LineIndicator.HARBOUR));
-        searchableData.add(new Station("3", "Sandhurst Road", "SNRD", LineIndicator.HARBOUR));
-        searchableData.add(new Station("4", "Dockyard Road", "DKRD", LineIndicator.HARBOUR));
-        searchableData.add(new Station("5", "Reay Road", "RRD", LineIndicator.HARBOUR));
-        searchableData.add(new Station("6", "Cotton Green", "CTGN", LineIndicator.HARBOUR));
-        searchableData.add(new Station("7", "Sewri", "SVE", LineIndicator.HARBOUR));
+        searchableData.add(new Station("1", "Mumbai CST", "CSTM", LineIndicator.HARBOUR, StationLocation.MUMBAI_CST));
+        searchableData.add(new Station("2", "Masjid Bunder", "MSD", LineIndicator.HARBOUR, StationLocation.MASJID_BUNDER));
+        searchableData.add(new Station("3", "Sandhurst Road", "SNRD", LineIndicator.HARBOUR,StationLocation.SANDHURST_ROAD));
+        searchableData.add(new Station("4", "Dockyard Road", "DKRD", LineIndicator.HARBOUR, StationLocation.DOCKYARD_ROAD));
+        searchableData.add(new Station("5", "Reay Road", "RRD", LineIndicator.HARBOUR, StationLocation.REAY_ROAD));
+        searchableData.add(new Station("6", "Cotton Green", "CTGN", LineIndicator.HARBOUR, StationLocation.COTTON_GREEN));
+        searchableData.add(new Station("7", "Sewri", "SVE", LineIndicator.HARBOUR, StationLocation.SEWRI));
         searchableData.add(new Station("8", "Wadala Road", "VDLR", LineIndicator.HARBOUR));
         searchableData.add(new Station("9", "Guru Tegh Bahadur Nagar", "GTBN", LineIndicator.HARBOUR));
         searchableData.add(new Station("10", "Chunabhatti", "CHF", LineIndicator.HARBOUR));

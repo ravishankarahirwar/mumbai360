@@ -1,14 +1,27 @@
 package mumbai.d360.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,11 +39,26 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import mumbai.d360.R;
+import mumbai.d360.activity.MainActivity;
+import mumbai.d360.activity.UpDownActivity;
+import mumbai.d360.callbacks.OnStationSelect;
+import mumbai.d360.data.Bootstrap;
+import mumbai.d360.data.SearchMatch;
+import mumbai.d360.data.StationCollection;
+import mumbai.d360.data.StationLocation;
+import mumbai.d360.database.offlinedb.MessageDBAdapter;
 import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
 import mumbai.d360.dataprovider.mono.MonoStationDataProvider;
+import mumbai.d360.dataprovider.search.SearchData;
 import mumbai.d360.model.Station;
+import mumbai.d360.searchdata.ColorSuggestion;
+import mumbai.d360.searchdata.DataHelper;
+import mumbai.d360.utils.LineIndicator;
+
+import static mumbai.d360.activity.MainActivity.FIND_SUGGESTION_SIMULATED_DELAY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,28 +74,20 @@ public class MapFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     MapView mMapView;
     private GoogleMap googleMap;
 
-//    private OnFragmentInteractionListener mListener;
+    private FloatingSearchView mSearchView;
+    private SearchData mSearchData;
+    private Context mContext;
+    private MessageDBAdapter mMessageDBAdapter;
+    List<Station> combined;
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static MapFragment newInstance(String param1, String param2) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
@@ -80,10 +100,7 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mSearchData = new SearchData();
     }
 
     @Override
@@ -99,6 +116,20 @@ public class MapFragment extends Fragment {
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
+        mSearchView =  rootView.findViewById(R.id.floating_search_view);
+
+        mMessageDBAdapter = MessageDBAdapter.getInstance(mContext.getApplicationContext());
+        mMessageDBAdapter.open();
+
+        List<Station> wrStations = mMessageDBAdapter.retriveAllWesternLineStation();
+        List<Station> crStations = mMessageDBAdapter.retriveAllCentralLineStation();
+        List<Station> hrStations = mMessageDBAdapter.retriveAllHarberLineStation();
+
+        combined = new ArrayList<Station>();
+        combined.addAll(wrStations);
+        combined.addAll(crStations);
+        combined.addAll(hrStations);
+
         mMapView.onResume(); // needed to get the map to display immediately
 
         try {
@@ -111,6 +142,38 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
+
+                StationCollection tStationCollection=new StationCollection();
+                List<Station> allLocalStationList=  tStationCollection.getAllStationLocationList();
+                List<LatLng> wStationLocations = new ArrayList<LatLng>();
+                List<LatLng> cStationLocations = new ArrayList<LatLng>();
+                List<LatLng> hStationLocations = new ArrayList<LatLng>();
+
+                for(Station station : combined) {
+                    if(station.getLocation() != null) {
+                        googleMap.addMarker(new MarkerOptions().position(station.getLocation())
+                                .title(station.getName())
+                                .icon(BitmapDescriptorFactory
+                                        .fromResource(R.drawable.ic_train_map))
+                                .flat(true)
+                        ).setTag(station);
+                        switch (station.getLineIndicator()) {
+                            case LineIndicator.WESTERN:
+                                wStationLocations.add(station.getLocation());
+                                break;
+                            case LineIndicator.CENTER:
+                                cStationLocations.add(station.getLocation());
+                                break;
+                            case LineIndicator.HARBOUR:
+                                hStationLocations.add(station.getLocation());
+                                break;
+                        }
+                    }
+                }
+                googleMap.addPolyline(new PolylineOptions().geodesic(true).addAll(wStationLocations).color(Color.GREEN));
+                googleMap.addPolyline(new PolylineOptions().geodesic(true).addAll(cStationLocations).color(Color.MAGENTA));
+                googleMap.addPolyline(new PolylineOptions().geodesic(true).addAll(hStationLocations).color(Color.BLACK));
+
 
                 List<Station> stations = MetroStationDataProvider.getMetroStations();
                 List<LatLng> metorStationLocations = new ArrayList<LatLng>();
@@ -134,67 +197,31 @@ public class MapFragment extends Fragment {
                 }
                 googleMap.addPolyline(new PolylineOptions().geodesic(true).addAll(monoStationLocations).color(Color.BLUE));
 
-//                Polygon polygon = googleMap.addPolygon(new PolygonOptions()
-//                        .addAll(location)
-//                        .strokeColor(Color.RED)
-//                        .fillColor(Color.BLUE));
-
-
-
-                // For showing a move to my location button
-//                googleMap.setMyLocationEnabled(true);
-
-                // For dropping a marker at a point on the Map
-//                LatLng sydney = new LatLng(-34, 151);
-//                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-//
-//                // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(stations.get(0).getLocation()).zoom(12).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Station station = (Station) marker.getTag();
+                        startUpDownActivity(station);
+                    }
+                });
             }
         });
+        setupSearchBar();
+
+
 
         return rootView;
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
-    public void onDetach() {
-        super.onDetach();
-//        mListener = null;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
 
     @Override
     public void onResume() {
@@ -225,6 +252,268 @@ public class MapFragment extends Fragment {
         LatLng VERSOVA = new LatLng(19.13035, 72.82145);
         CameraPosition cameraPosition = new CameraPosition.Builder().target(VERSOVA).zoom(20).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    private void setupSearchBar() {
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+                if (!oldQuery.equals("") && newQuery.equals("")) {
+                    mSearchView.clearSuggestions();
+                } else {
+
+                    //this shows the top left circular progress
+                    //you can call it where ever you want, but
+                    //it makes sense to do it when loading something in
+                    //the background.
+                    mSearchView.showProgress();
+
+                    //simulates a query call to a data source
+                    //with a new query.
+                    findSuggestions(mContext, newQuery, 5,
+                            FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
+
+                                @Override
+                                public void onResults(List<ColorSuggestion> results) {
+
+                                    //this will swap the data and
+                                    //render the collapse/expand animations as necessary
+                                    mSearchView.swapSuggestions(results);
+//                                    Log.d(TAG, "360" + results.get(0).getStationCode());
+
+                                    //let the users know that the background
+                                    //process has completed
+                                    mSearchView.hideProgress();
+                                }
+                            });
+                }
+
+//                Log.d(TAG, "onSearchTextChanged()");
+            }
+        });
+
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+                Station stationLocation = ((Station) searchSuggestion);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(stationLocation.getLocation()).zoom(20).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                mSearchView.clearSearchFocus();
+                mSearchView.setSearchBarTitle(searchSuggestion.getBody());
+
+                Marker added = googleMap.addMarker(new MarkerOptions().position(stationLocation.getLocation())
+                                .title(stationLocation.getName())
+                                .icon(BitmapDescriptorFactory
+                                        .fromResource(R.drawable.ic_train_map)));
+                added.setTag(stationLocation);
+                added.showInfoWindow();
+
+
+//                startUpDownActivity( (Station) searchSuggestion);
+//
+//                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
+//                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
+//                        new DataHelper.OnFindColorsListener() {
+//
+//                            @Override
+//                            public void onResults(List<ColorWrapper> results) {
+//                                //show search results
+//                            }
+//
+//                        });
+//                Log.d(TAG, "onSuggestionClicked()");
+//
+//                mLastQuery = searchSuggestion.getBody();
+            }
+
+            @Override
+            public void onSearchAction(String query) {
+//                startUpDownActivity(new Station("39", "Mumbai CST", "CSTM", LineIndicator.CENTER));
+
+//                mLastQuery = query;
+//
+//                DataHelper.findColors(getActivity(), query,
+//                        new DataHelper.OnFindColorsListener() {
+//
+//                            @Override
+//                            public void onResults(List<ColorWrapper> results) {
+//                                //show search results
+//                            }
+//
+//                        });
+//                Log.d(TAG, "onSearchAction()");
+            }
+        });
+
+//        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+//            @Override
+//            public void onFocus() {
+//
+//                //show suggestions when search bar gains focus (typically history suggestions)
+//                mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
+//
+//                Log.d(TAG, "onFocus()");
+//            }
+//
+//            @Override
+//            public void onFocusCleared() {
+//
+//                //set the title of the bar so that when focus is returned a new query begins
+//                mSearchView.setSearchBarTitle(mLastQuery);
+//
+//                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
+//                //mSearchView.setSearchText(searchSuggestion.getBody());
+//
+//                Log.d(TAG, "onFocusCleared()");
+//            }
+//        });
+//
+//
+        //handle menu clicks the same way as you would
+        //in a regular activity
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+
+                if (item.getItemId() == R.id.action_voice_rec) {
+//                    startVoiceRecognitionActivity();
+                } else {
+                    //just print action
+                    Toast.makeText(getActivity().getApplicationContext(), item.getTitle(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+//
+//        //use this listener to listen to menu clicks when app:floatingSearch_leftAction="showHome"
+//        mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
+//            @Override
+//            public void onHomeClicked() {
+//
+//                Log.d(TAG, "onHomeClicked()");
+//            }
+//        });
+//
+        /*
+         * Here you have access to the left icon and the text of a given suggestion
+         * item after as it is bound to the suggestion list. You can utilize this
+         * callback to change some properties of the left icon and the text. For example, you
+         * can load the left icon images using your favorite image loading library, or change text color.
+         *
+         *
+         * Important:
+         * Keep in mind that the suggestion list is a RecyclerView, so views are reused for different
+         * items in the list.
+         */
+        mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
+            @Override
+            public void onBindSuggestion(View suggestionView, ImageView leftIcon,
+                                         TextView textView, SearchSuggestion item, int itemPosition) {
+                Station station = (Station) item;
+
+                String textColor = true ? "#bfbfbf" : "#000000";
+                String textLight = true ? "#FF4675" : "#787878";
+                TextDrawable lineIndicator = null;
+                switch (station.getLineIndicator()) {
+                    case LineIndicator.WESTERN :
+                        lineIndicator = TextDrawable.builder()
+                                .buildRound("W", R.color.colorPrimary);
+                        break;
+                    case LineIndicator.CENTER :
+                        lineIndicator = TextDrawable.builder()
+                                .buildRound("C", R.color.colorPrimary);
+                        break;
+                    case LineIndicator.HARBOUR :
+                        lineIndicator = TextDrawable.builder()
+                                .buildRound("H", R.color.colorPrimary);
+                        break;
+                    case LineIndicator.METRO :
+                        lineIndicator = TextDrawable.builder()
+                                .buildRound("M", R.color.colorPrimary);
+                        break;
+                    case LineIndicator.MONO :
+                        lineIndicator = TextDrawable.builder()
+                                .buildRound("MO", R.color.colorPrimary);
+                        break;
+                }
+
+                leftIcon.setImageDrawable(lineIndicator);
+                Spannable word = new SpannableString(mSearchView.getQuery());
+
+                word.setSpan(new ForegroundColorSpan(Color.BLUE), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                textView.setText(word);
+                Spannable wordTwo = new SpannableString(station.getBody().toLowerCase().replaceFirst(mSearchView.getQuery().toLowerCase(), ""));
+
+                wordTwo.setSpan(new ForegroundColorSpan(Color.RED), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                textView.append(wordTwo);
+
+            }
+
+        });
+    }
+
+    private void startUpDownActivity(Station station) {
+        Intent intent = new Intent(mContext, UpDownActivity.class);
+        intent.putExtra("station_name", station.getName());
+        intent.putExtra("stKey", station.getStationCode());
+        intent.putExtra("line", station.getLineIndicator());
+        startActivity(intent);
+    }
+
+    public void findSuggestions(Context context, String query, final int limit, final long simulatedDelay,
+                                final DataHelper.OnFindSuggestionsListener listener) {
+        new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                try {
+                    Thread.sleep(simulatedDelay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                DataHelper.resetSuggestionsHistory();
+                List<Station> suggestionList = new ArrayList<>();
+                if (!(constraint == null || constraint.length() == 0)) {
+
+                    for (Station station : combined) {
+                        if (station.getBody().toUpperCase()
+                                .startsWith(constraint.toString().toUpperCase())) {
+
+                            suggestionList.add(station);
+                            if (limit != -1 && suggestionList.size() == limit) {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+//                Collections.sort(suggestionList, new Comparator<ColorSuggestion>() {
+//                    @Override
+//                    public int compare(ColorSuggestion lhs, ColorSuggestion rhs) {
+//                        return lhs.getIsHistory() ? -1 : 0;
+//                    }
+//                });
+                results.values = suggestionList;
+                results.count = suggestionList.size();
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                if (listener != null) {
+                    listener.onResults((List<ColorSuggestion>) results.values);
+                }
+            }
+        }.filter(query);
 
     }
 

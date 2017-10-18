@@ -30,6 +30,7 @@
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/no_of_bogi"
             android:drawableLeft="@drawable/ic_start"
+            android:fontFamily="sans-serif-light"
             android:gravity="center_vertical"
             android:textColor="#7c7c7c"
             android:textStyle="bold" />
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/time"
+            android:fontFamily="sans-serif-light"
             android:layout_marginRight="2dp"
             android:textColor="#7c7c7c"
             android:textStyle="bold" />

@@ -28,14 +28,6 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
          instanceFragment=
@@ -59,9 +51,8 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
     @Override
     public void onTrainSelect(Train trainInfo) {
         Intent intent = new Intent(UpDownActivity.this, TrainScheduleActivity.class);
-
         intent.putExtra("trainkey", trainInfo.getTrainKey());
-        intent.putExtra("source_destination", trainInfo.getSource2destination());
+        intent.putExtra("source_destination", trainInfo.getSource() + " - " + trainInfo.getDestination());
         intent.putExtra("line", trainInfo.getLineIndicator());
         intent.putExtra("direction", trainInfo.getDirection());
         startActivity(intent);

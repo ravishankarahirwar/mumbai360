@@ -90,7 +90,7 @@ public class TrainScheduleActivityFragment extends Fragment {
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
         }else if(line == LineIndicator.CENTER && direction == Direction.UP){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
-        }else if(line == LineIndicator.WESTERN && direction == Direction.DOWN){
+        }else if(line == LineIndicator.CENTER && direction == Direction.DOWN){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
         }else if(line == LineIndicator.HARBOUR && direction == Direction.UP){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);

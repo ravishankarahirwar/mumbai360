@@ -27,19 +27,39 @@ public class Station implements SearchSuggestion {
         this.stationCode = source.readString();
         this.mIsHistory = source.readInt() != 0;
     }
-
-    public Station(String id, String name, LatLng location) {
+    public Station(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Station(String id, String name, LatLng location) {
+        this(id, name);
         this.location = location;
     }
 
     public Station(String id, String name, String stationCode, int lineIndicator) {
-        this.id = id;
-        this.name = name;
+        this(id, name);
         this.stationCode = stationCode;
         this.lineIndicator = lineIndicator;
+    }
+
+    public Station(String id, String name, String stationCode, int lineIndicator, LatLng location) {
+        this(id, name,stationCode,lineIndicator);
         this.location = location;
+    }
+
+    public Station( LatLng location, String name, String stationCode, int lineIndicator) {
+        this.name = name;
+        this.location = location;
+        this.stationCode = stationCode;
+        this.lineIndicator = lineIndicator;
+    }
+
+    public Station( LatLng location, String name,  int lineIndicator) {
+        this.name = name;
+        this.location = location;
+        this.lineIndicator = lineIndicator;
+
     }
 
     public boolean ismIsHistory() {

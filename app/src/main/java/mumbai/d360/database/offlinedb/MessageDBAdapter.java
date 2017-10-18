@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -98,13 +100,17 @@ public class MessageDBAdapter {
 
     public List<Station> retriveAllWesternLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.WESTERN_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.WESTERN_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
         mCursor.moveToFirst();
         int count = mCursor.getCount();
         for (int i = 0; i < mCursor.getCount(); i++) {
             Station tStation = new Station();
             tStation.setName(mCursor.getString(0));
             tStation.setStationCode(mCursor.getString(1));
+            if(mCursor.getString(2) != null && mCursor.getString(3) != null) {
+                LatLng stationLocation = new LatLng(Double.parseDouble(mCursor.getString(2)), Double.parseDouble(mCursor.getString(3)));
+                tStation.setLocation(stationLocation);
+            }
             tStation.setLineIndicator(LineIndicator.WESTERN);
             tAllHarberLineStation.add(tStation);
             mCursor.moveToNext();
@@ -273,12 +279,18 @@ public class MessageDBAdapter {
     //*****************CENTRAL LINE OPERATION START************************
     public List<Station> retriveAllCentralLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.CENTRAL_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.CENTRAL_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE, ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
 
         while (mCursor.moveToNext()) {
             Station tStation = new Station();
             tStation.setName(mCursor.getString(0));
             tStation.setStationCode(mCursor.getString(1));
+
+            if(mCursor.getString(2) != null && mCursor.getString(3) != null) {
+                LatLng stationLocation = new LatLng(Double.parseDouble(mCursor.getString(2)), Double.parseDouble(mCursor.getString(3)));
+                tStation.setLocation(stationLocation);
+            }
+
             tStation.setLineIndicator(LineIndicator.CENTER);
             tAllHarberLineStation.add(tStation);
 
@@ -467,12 +479,18 @@ public class MessageDBAdapter {
 
     public List<Station> retriveAllHarberLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.HARBER_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.HARBER_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE, ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
         while (mCursor.moveToNext()) {
             Station tStation = new Station();
             tStation.setName(mCursor.getString(0));
             tStation.setStationCode(mCursor.getString(1));
             tStation.setLineIndicator(LineIndicator.HARBOUR);
+
+            if(mCursor.getString(2) != null && mCursor.getString(3) != null) {
+                LatLng stationLocation = new LatLng(Double.parseDouble(mCursor.getString(2)), Double.parseDouble(mCursor.getString(3)));
+                tStation.setLocation(stationLocation);
+            }
+
             tAllHarberLineStation.add(tStation);
         }
         mCursor.close();

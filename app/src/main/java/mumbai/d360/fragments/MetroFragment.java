@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import mumbai.d360.R;
+import mumbai.d360.adapter.MetroMonoAdapter;
 import mumbai.d360.adapter.StationNameAdapter;
 import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
@@ -42,7 +43,7 @@ public class MetroFragment extends Fragment {
     private PlusOneButton mPlusOneButton;
 
     private OnStationSelect mListener;
-    private StationNameAdapter mAdapter;
+    private MetroMonoAdapter mAdapter;
     private RecyclerView mRecyclerView;
 
     public MetroFragment() {
@@ -86,7 +87,7 @@ public class MetroFragment extends Fragment {
         mPlusOneButton = (PlusOneButton) rootView.findViewById(R.id.plus_one_button);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.metro_station_list);
 
-        mAdapter = new StationNameAdapter(MetroStationDataProvider.getMetroStations(), mListener);
+        mAdapter = new MetroMonoAdapter(MetroStationDataProvider.getMetroStations(), mListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

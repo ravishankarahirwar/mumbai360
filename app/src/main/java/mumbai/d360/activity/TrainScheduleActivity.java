@@ -26,6 +26,7 @@ public class TrainScheduleActivity extends AppCompatActivity {
         int line = getIntent().getExtras().getInt("line");
         int direction = getIntent().getExtras().getInt("direction");
 
+        setTitle(source_destination);
         trainScheduleActivityFragment =
                 (TrainScheduleActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_train_schedule);
         trainScheduleActivityFragment.onTrainSeclected(trainkey,source_destination,line,direction);

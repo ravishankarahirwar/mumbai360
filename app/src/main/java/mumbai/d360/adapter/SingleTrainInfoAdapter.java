@@ -60,11 +60,11 @@ public class SingleTrainInfoAdapter extends BaseAdapter{
 			
 			convertView=mInflater.inflate(R.layout.show_singletrain_schedule, null);
 			
-//			if (location % 2 == 1) {
-//				convertView.setBackgroundColor(Color.WHITE);
-//			} else {
-//				convertView.setBackgroundResource(R.color.train_selected_color);
-//			}
+			if (location % 2 == 0) {
+				convertView.setBackgroundColor(Color.WHITE);
+			} else {
+				convertView.setBackgroundResource(R.color.colorPrimary);
+			}
 			
 			tViewHolder=new ViewHolder();
 			tViewHolder.no=(TextView)convertView.findViewById(R.id.no);

@@ -1,6 +1,7 @@
 package mumbai.d360.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,13 @@ import mumbai.d360.viewholders.UpDownViewHolder;
 public class UpDownAdapter extends RecyclerView.Adapter<UpDownViewHolder> {
     private List<Train> mValues;
     private OnTrainSelect mListener;
+    Typeface custom_font,ledFont,fireFont;
+
 
     public UpDownAdapter(Context context, List<Train> values, OnTrainSelect listener) {
         this.mValues = values;
         this.mListener = listener;
+        fireFont= Typeface.createFromAsset(context.getAssets(), "FasterOne-Regular.ttf");
     }
 
     @Override
@@ -43,6 +47,9 @@ public class UpDownAdapter extends RecyclerView.Adapter<UpDownViewHolder> {
         holder.toStationName.setText(holder.train.getDestination());
         holder.time.setText(holder.train.getTime());
         holder.noOfBogi.setText(holder.train.getCars());
+        if(holder.train.getSpeed().equalsIgnoreCase("Fast")){
+            holder.time.setTypeface(fireFont);
+        }
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

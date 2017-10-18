@@ -1,6 +1,11 @@
 <resources>
-        <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyBqlSBLi7iUeXXm0hQd0s1OXYwzeM-4GsY</string>
+        <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">-->
+        <!--AIzaSyBqlSBLi7iUeXXm0hQd0s1OXYwzeM-4GsY</string>-->
+    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">-->
+        <!--AIzaSyCkr5gUvw1Ruk8OPCPdTmyJxVR-W4Lt1-A</string>-->
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyA65lbp6No9rI2mnE2L6oohfRQ6zMEFhqo</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
