@@ -60,15 +60,7 @@ import mumbai.d360.utils.LineIndicator;
 
 import static mumbai.d360.activity.MainActivity.FIND_SUGGESTION_SIMULATED_DELAY;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MapFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MapFragment extends Fragment {
+public class MapFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -210,10 +202,14 @@ public class MapFragment extends Fragment {
             }
         });
         setupSearchBar();
-
+        setupDrawer();
 
 
         return rootView;
+    }
+
+    private void setupDrawer() {
+        attachSearchViewActivityDrawer(mSearchView);
     }
 
     @Override
@@ -515,6 +511,14 @@ public class MapFragment extends Fragment {
             }
         }.filter(query);
 
+    }
+
+    @Override
+    public boolean onActivityBackPress() {
+        if (!mSearchView.setSearchFocused(false)) {
+            return false;
+        }
+        return true;
     }
 
 }

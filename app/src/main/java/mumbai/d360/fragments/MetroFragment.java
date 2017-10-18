@@ -20,17 +20,9 @@ import mumbai.d360.model.Station;
 
 import com.google.android.gms.plus.PlusOneButton;
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * {@link OnMetroStationClickListener} interface
- * to handle interaction events.
- * Use the {@link MetroFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MetroFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     // The request code must be 0 or greater.
