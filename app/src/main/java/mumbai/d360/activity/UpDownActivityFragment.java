@@ -96,6 +96,8 @@ public class UpDownActivityFragment extends Fragment {
                 tAllDownTrain = mMessageDBAdapter.retriveAllHarberDownTrainByStation(station.getStationCode());
                 break;
             case LineIndicator.METRO :
+                tAllUpTrain = mMessageDBAdapter.retriveAllMetroUPTrainByStation(station.getStationCode());
+                tAllDownTrain = mMessageDBAdapter.retriveAllMetroDownTrainByStation(station.getStationCode());
                 break;
             case LineIndicator.MONO :
                 break;

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         mContext = MainActivity.this;
         mMessageDBAdapter = MessageDBAdapter.getInstance(mContext.getApplicationContext());
         mMessageDBAdapter.open();
+
         List<Station> wrStations = mMessageDBAdapter.retriveAllWesternLineStation();
 
         pd = new TransparentProgressDialog(this, R.drawable.p4);

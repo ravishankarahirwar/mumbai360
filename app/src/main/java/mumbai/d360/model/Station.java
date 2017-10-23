@@ -37,6 +37,11 @@ public class Station implements SearchSuggestion {
         this.location = location;
     }
 
+    public Station(String id, String name, LatLng location, int lineIndicator) {
+        this(id, name);
+        this.location = location;
+        this.lineIndicator = lineIndicator;
+    }
     public Station(String id, String name, String stationCode, int lineIndicator) {
         this(id, name);
         this.stationCode = stationCode;

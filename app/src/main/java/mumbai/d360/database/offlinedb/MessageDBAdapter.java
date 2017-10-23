@@ -19,6 +19,8 @@ import java.util.List;
 
 import mumbai.d360.database.Asm;
 import mumbai.d360.database.ColumnsName;
+import mumbai.d360.dataprovider.metro.MetroStationNames;
+import mumbai.d360.dataprovider.mono.MonoStationName;
 import mumbai.d360.model.SourceDestination;
 import mumbai.d360.model.Station;
 import mumbai.d360.model.Train;
@@ -709,5 +711,226 @@ public class MessageDBAdapter {
 
         return tAllHarberLineUpTrain;
     }
+
+
+    //************METRO LINE OPERATION**********************
+    public List<Train> retriveAllMetroUPTrainByStation(String stationKey) {
+
+        List<String> trainsTime = new ArrayList<String>();
+        List<String> allMetroUPTrainTimeShortedList = new ArrayList<String>();
+
+        boolean tempFindListSelection=true;
+        String currentDateandTime = simpleDateFormat.format(new Date());
+        Date currentTime = null;
+        try {
+            currentTime = simpleDateFormat.parse(currentDateandTime);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+        List<Train> tAllHarberLineUpTrain=new ArrayList<Train>();
+        Cursor mCursor = mDb.query(Asm.METRO_UP_TRAIN_TIMETABLE, new String[] {"trainkey","time"},"stkey='"+ stationKey+"'" , null, null, null, "time");
+        while (mCursor.moveToNext()){
+            Train tTrain = new Train();
+
+            tTrain.setTrainKey(mCursor.getString(0));
+
+            tTrain.setTime(mCursor.getString(1));
+            trainsTime.add(tTrain.getTime());
+            allMetroUPTrainTimeShortedList.add(tTrain.getTime());
+
+            tTrain.setSource(MetroStationNames.GHATKOPAR);
+            tTrain.setDestination(MetroStationNames.VERSOVA);
+            tTrain.setCars(""+9);
+
+            tAllHarberLineUpTrain.add(tTrain);
+
+        }
+        /**
+         * Findind first train accordint to current time
+         * */
+        Collections.sort(allMetroUPTrainTimeShortedList);
+        try {
+            for(int i=0;i<allMetroUPTrainTimeShortedList.size();i++){
+                Date  trainTime   =  simpleDateFormat.parse(allMetroUPTrainTimeShortedList.get(i).toString());
+                if(tempFindListSelection && ( (trainTime.compareTo(currentTime) > 0)||(trainTime.compareTo(currentTime) == 0))){
+                    TrainConstants.UP_SELECTED_TRAIN_POSITION=trainsTime.indexOf(allMetroUPTrainTimeShortedList.get(i).toString());
+                    tempFindListSelection=false;
+                    break;
+                }
+
+            } }catch (ParseException e) {
+            TrainConstants.UP_SELECTED_TRAIN_POSITION=0;
+            e.printStackTrace();
+        }
+        mCursor.close();
+        return tAllHarberLineUpTrain;
+    }
+
+    public List<Train> retriveAllMetroDownTrainByStation(String stationKey) {
+
+        List<String> trainsTime = new ArrayList<String>();
+        List<String> allMetroDownTrainTimeShortedList = new ArrayList<String>();
+
+        boolean tempFindListSelection=true;
+        String currentDateandTime = simpleDateFormat.format(new Date());
+        Date currentTime = null;
+        try {
+            currentTime = simpleDateFormat.parse(currentDateandTime);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+        List<Train> tAllMetroLineDownTrain=new ArrayList<Train>();
+        Cursor mCursor = mDb.query(Asm.METRO_DOWN_TRAIN_TIMETABLE, new String[] {"trainkey","time"},"stkey='"+ stationKey+"'" , null, null, null, "time");
+        while (mCursor.moveToNext()){
+            Train tTrain = new Train();
+
+            tTrain.setTrainKey(mCursor.getString(0));
+
+            tTrain.setTime(mCursor.getString(1));
+            trainsTime.add(tTrain.getTime());
+            allMetroDownTrainTimeShortedList.add(tTrain.getTime());
+
+            tTrain.setSource(MetroStationNames.VERSOVA);
+            tTrain.setDestination(MetroStationNames.GHATKOPAR);
+            tTrain.setCars(""+9);
+
+            tAllMetroLineDownTrain.add(tTrain);
+
+        }
+
+        /**
+         * Findind first train accordint to current time
+         * */
+        Collections.sort(allMetroDownTrainTimeShortedList);
+        try {
+            for(int i=0;i<allMetroDownTrainTimeShortedList.size();i++){
+                Date  trainTime   =  simpleDateFormat.parse(allMetroDownTrainTimeShortedList.get(i).toString());
+                if(tempFindListSelection && ( (trainTime.compareTo(currentTime) > 0)||(trainTime.compareTo(currentTime) == 0))){
+                    TrainConstants.DOWN_SELECTED_TRAIN_POSITION=trainsTime.indexOf(allMetroDownTrainTimeShortedList.get(i).toString());
+                    tempFindListSelection=false;
+                    break;
+                }
+
+            } }catch (ParseException e) {
+            TrainConstants.UP_SELECTED_TRAIN_POSITION = 0;
+            e.printStackTrace();
+        }
+        mCursor.close();
+        return tAllMetroLineDownTrain;
+    }
+//*****************************************************************
+
+    //************MONO LINE OPERATION**********************
+    public List<Train> retriveAllMONOUPTrainByStation(String stationKey) {
+
+        List<String> trainsTime = new ArrayList<String>();
+        List<String> allMetroUPTrainTimeShortedList = new ArrayList<String>();
+
+        boolean tempFindListSelection=true;
+        String currentDateandTime = simpleDateFormat.format(new Date());
+        Date currentTime = null;
+        try {
+            currentTime = simpleDateFormat.parse(currentDateandTime);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+        List<Train> tAllHarberLineUpTrain=new ArrayList<Train>();
+        Cursor mCursor = mDb.query(Asm.MONO_UP_TRAIN_TIMETABLE, new String[] {"trainkey","time"},"stkey='"+ stationKey+"'" , null, null, null, "time");
+        while (mCursor.moveToNext()){
+            Train tTrain = new Train();
+
+            tTrain.setTrainKey(mCursor.getString(0));
+
+            tTrain.setTime(mCursor.getString(1));
+            trainsTime.add(tTrain.getTime());
+            allMetroUPTrainTimeShortedList.add(tTrain.getTime());
+
+            tTrain.setSource(MonoStationName.CHEMBUR);
+            tTrain.setDestination(MonoStationName.WADALA);
+            tTrain.setCars(""+9);
+
+            tAllHarberLineUpTrain.add(tTrain);
+
+        }
+        /**
+         * Findind first train accordint to current time
+         * */
+        Collections.sort(allMetroUPTrainTimeShortedList);
+        try {
+            for(int i=0;i<allMetroUPTrainTimeShortedList.size();i++){
+                Date  trainTime   =  simpleDateFormat.parse(allMetroUPTrainTimeShortedList.get(i).toString());
+                if(tempFindListSelection && ( (trainTime.compareTo(currentTime) > 0)||(trainTime.compareTo(currentTime) == 0))){
+                    TrainConstants.UP_SELECTED_TRAIN_POSITION=trainsTime.indexOf(allMetroUPTrainTimeShortedList.get(i).toString());
+                    tempFindListSelection=false;
+                    break;
+                }
+
+            } }catch (ParseException e) {
+            TrainConstants.UP_SELECTED_TRAIN_POSITION=0;
+            e.printStackTrace();
+        }
+        mCursor.close();
+        return tAllHarberLineUpTrain;
+    }
+
+    public List<Train> retriveAllMONODownTrainByStation(String stationKey) {
+
+        List<String> trainsTime = new ArrayList<String>();
+        List<String> allMetroUPTrainTimeShortedList = new ArrayList<String>();
+
+        boolean tempFindListSelection=true;
+        String currentDateandTime = simpleDateFormat.format(new Date());
+        Date currentTime = null;
+        try {
+            currentTime = simpleDateFormat.parse(currentDateandTime);
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+
+        List<Train> tAllHarberLineUpTrain=new ArrayList<Train>();
+        Cursor mCursor = mDb.query(Asm.MONO_DOWN_TRAIN_TIMETABLE, new String[] {"trainkey","time"},"stkey='"+ stationKey+"'" , null, null, null, "time");
+        while (mCursor.moveToNext()){
+            Train tTrain = new Train();
+
+            tTrain.setTrainKey(mCursor.getString(0));
+
+            tTrain.setTime(mCursor.getString(1));
+            trainsTime.add(tTrain.getTime());
+            allMetroUPTrainTimeShortedList.add(tTrain.getTime());
+
+//		  SourceDestination tSourceDestination = getSourceDestinationByTrainNo(mCursor.getString(0));;
+            tTrain.setSource(MonoStationName.WADALA);
+            tTrain.setDestination(MonoStationName.CHEMBUR);
+            tTrain.setCars(""+9);
+//		  tTrain.feature=;
+//		  tTrain.speed=fast;
+
+            tAllHarberLineUpTrain.add(tTrain);
+
+        }
+        /**
+         * Findind first train accordint to current time
+         * */
+        Collections.sort(allMetroUPTrainTimeShortedList);
+        try {
+            for(int i=0;i<allMetroUPTrainTimeShortedList.size();i++){
+                Date  trainTime   =  simpleDateFormat.parse(allMetroUPTrainTimeShortedList.get(i).toString());
+                if(tempFindListSelection && ( (trainTime.compareTo(currentTime) > 0)||(trainTime.compareTo(currentTime) == 0))){
+                    TrainConstants.DOWN_SELECTED_TRAIN_POSITION=trainsTime.indexOf(allMetroUPTrainTimeShortedList.get(i).toString());
+                    tempFindListSelection=false;
+                    break;
+                }
+
+            } }catch (ParseException e) {
+            TrainConstants.UP_SELECTED_TRAIN_POSITION=0;
+            e.printStackTrace();
+        }
+        mCursor.close();
+        return tAllHarberLineUpTrain;
+    }
+
 
 }

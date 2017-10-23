@@ -76,7 +76,7 @@ public class MetroFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_metro, container, false);
 
         //Find the +1 button
-        mPlusOneButton = (PlusOneButton) rootView.findViewById(R.id.plus_one_button);
+//        mPlusOneButton = (PlusOneButton) rootView.findViewById(R.id.plus_one_button);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.metro_station_list);
 
         mAdapter = new MetroMonoAdapter(MetroStationDataProvider.getMetroStations(), mListener);
@@ -93,7 +93,7 @@ public class MetroFragment extends Fragment {
         super.onResume();
 
         // Refresh the state of the +1 button each time the activity receives focus.
-        mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
+//        mPlusOneButton.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE);
     }
 
 

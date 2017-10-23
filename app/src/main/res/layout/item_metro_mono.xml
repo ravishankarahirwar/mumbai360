@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:background="#EEE"
+    android:layout_margin="8dp"
+    android:elevation="8dp"
     android:orientation="vertical" >
 
     <TextView
@@ -15,10 +17,8 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:layout_marginLeft="7dip"
-        android:layout_marginRight="7dip"
-        android:layout_marginTop="7dip"
-        android:background="@android:color/white"        android:textColor="@android:color/white"
+        android:background="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="15sp"
         />
 </LinearLayout>

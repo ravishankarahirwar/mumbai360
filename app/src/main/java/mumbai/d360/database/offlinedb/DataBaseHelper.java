@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import mumbai.d360.database.TrackTracerDataBaseAdapter;
 import mumbai.d360.preferences.Mumbai360Prefrences;
+
+import static mumbai.d360.activity.MainActivity.mDbHelper;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -35,6 +38,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void createDataBase() throws IOException {
         boolean mDataBaseExist = checkDataBase();
         if (!mDataBaseExist) {
+            mDbHelper = new TrackTracerDataBaseAdapter(mContext);
+            mDbHelper.open();
+
+
             this.getReadableDatabase();
             try {
                 copyDataBase();
