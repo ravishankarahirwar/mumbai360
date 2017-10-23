@@ -37,10 +37,14 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
         String stKey = getIntent().getExtras().getString("stKey");
         int line = getIntent().getExtras().getInt("line");
 
+        int id = getIntent().getExtras().getInt("id");
+
         Station station = new Station();
         station.setName(stationName);
         station.setStationCode(stKey);
         station.setLineIndicator(line);
+        station.setId(""+id);
+
         setTitle(stationName);
 
         if(instanceFragment != null) {

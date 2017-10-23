@@ -97,11 +97,12 @@ public class TrainScheduleActivityFragment extends Fragment {
         }else if(line == LineIndicator.HARBOUR && direction == Direction.DOWN){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
         }
-//        else if(line.equalsIgnoreCase("metro")&&direction.equalsIgnoreCase("up")){
-//            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
-//        }else if(line.equalsIgnoreCase("metro")&&direction.equalsIgnoreCase("down")){
-//            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
-//        }else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("up")){
+        else if(line == LineIndicator.METRO && direction == Direction.UP){
+            singleTrainInfo = mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,LineIndicator.METRO,direction);
+        }else if(line == LineIndicator.METRO && direction == Direction.DOWN){
+            singleTrainInfo = mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,LineIndicator.METRO,direction);
+        }
+//        else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("up")){
 //            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
 //        }else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("down")){
 //            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);

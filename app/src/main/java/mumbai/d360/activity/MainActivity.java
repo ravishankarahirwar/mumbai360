@@ -226,6 +226,8 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("station_name", station.getName());
         intent.putExtra("stKey", station.getStationCode());
         intent.putExtra("line", station.getLineIndicator());
+        intent.putExtra("id", station.getId());
+
         startActivity(intent);
     }
 

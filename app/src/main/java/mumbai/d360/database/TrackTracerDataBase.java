@@ -12,24 +12,26 @@ import java.util.Date;
 import mumbai.d360.data.TrackTracerDataManager;
 import mumbai.d360.database.contentvalue.TrainInfo;
 import mumbai.d360.dataprovider.metro.MetroUpTrainInfo;
+import mumbai.d360.dataprovider.metro.Php;
 import mumbai.d360.dataprovider.mono.MonoStationName;
 
 public class TrackTracerDataBase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "conversionProfile_PiP.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 11;
 	TrackTracerDataManager mTrackTracerDataManager;
 //	StringToJson mStringToJson;
 //	AssetsFileProvider mAssetsFileProvider;
 //	String	mParsableString;
 	MetroUpTrainInfo mMetroUpTrainInfo;
-//	Php mMetroDownTrainInfo;
+
+	Php mMetroDownTrainInfo;
 	private SimpleDateFormat simpleDateFormat;
 	public TrackTracerDataBase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.mTrackTracerDataManager=new TrackTracerDataManager();
 		mMetroUpTrainInfo=new MetroUpTrainInfo();
-//		mMetroDownTrainInfo=new Php();
+		mMetroDownTrainInfo=new Php();
 //		mStringToJson=new StringToJson();
 //		mAssetsFileProvider=new AssetsFileProvider(context);
 		simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -68,8 +70,8 @@ public class TrackTracerDataBase extends SQLiteOpenHelper {
 //		mTrackTracerDataManager.harberdowntimetable=mStringToJson.stringToTimeTable(mParsableString);
 //
 //
-		mTrackTracerDataManager.metrouptimetable=mMetroUpTrainInfo.getMetroUpTrainInfo();
-//		mTrackTracerDataManager.metrodowntimetable=mMetroDownTrainInfo.getMetroDownTrainInfo();
+		mTrackTracerDataManager.metrouptimetable = mMetroUpTrainInfo.getMetroUpTrainInfo();
+		mTrackTracerDataManager.metrodowntimetable = mMetroDownTrainInfo.getMetroDownTrainInfo();
 //
 //		//*************************ALL TABLE CREATION *******************************
 //
@@ -323,7 +325,7 @@ public class TrackTracerDataBase extends SQLiteOpenHelper {
 //		//*****************METRO TIME TABLE INSERTION***********************************
 
 		for(int i=0;i<mTrackTracerDataManager.metrouptimetable.size();i++){
-			TrainInfo tTimeTableDataTimeTable=mTrackTracerDataManager.metrouptimetable.get(i);
+			TrainInfo tTimeTableDataTimeTable = mTrackTracerDataManager.metrouptimetable.get(i);
 
 			for(int j=0;j<tTimeTableDataTimeTable.stationName.length;j++){
 				ContentValues values = new ContentValues();
@@ -331,6 +333,7 @@ public class TrackTracerDataBase extends SQLiteOpenHelper {
 				values.put(ColumnsName.TIMETABLE.STKEY,tTimeTableDataTimeTable.stationName[j] );
 				values.put(ColumnsName.TIMETABLE.TIME,tTimeTableDataTimeTable.time[j]);
 				long id = trackTrackDataBase.insert(Asm.METRO_UP_TRAIN_TIMETABLE, null, values);
+				Log.v("MetroInsertId", ":" + id);
 			}
 
 		}
@@ -344,6 +347,7 @@ public class TrackTracerDataBase extends SQLiteOpenHelper {
 				values.put(ColumnsName.TIMETABLE.STKEY,tTimeTableDataTimeTable.stationName[j] );
 				values.put(ColumnsName.TIMETABLE.TIME,tTimeTableDataTimeTable.time[j]);
 				long id = trackTrackDataBase.insert(Asm.METRO_DOWN_TRAIN_TIMETABLE, null, values);
+				Log.v("MetroInsertId", ":" + id);
 			}
 
 		}

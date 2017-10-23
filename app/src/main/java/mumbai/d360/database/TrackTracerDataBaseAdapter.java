@@ -17,6 +17,9 @@ import java.util.List;
 import mumbai.d360.dataprovider.metro.MetroStationNames;
 import mumbai.d360.dataprovider.mono.MonoStationName;
 import mumbai.d360.model.Train;
+import mumbai.d360.utils.Boot;
+import mumbai.d360.utils.Direction;
+import mumbai.d360.utils.LineIndicator;
 import mumbai.d360.utils.TrainConstants;
 
 @SuppressLint("SimpleDateFormat")
@@ -735,7 +738,8 @@ public class TrackTracerDataBaseAdapter {
             Train tTrain = new Train();
 
             tTrain.setTrainKey(mCursor.getString(0));
-
+            tTrain.setLineIndicator(LineIndicator.METRO);
+            tTrain.setDirection(Direction.UP);
             tTrain.setTime(mCursor.getString(1));
             trainsTime.add(tTrain.getTime());
             allMetroUPTrainTimeShortedList.add(tTrain.getTime());
@@ -792,6 +796,8 @@ public class TrackTracerDataBaseAdapter {
             Train tTrain = new Train();
 
             tTrain.setTrainKey(mCursor.getString(0));
+            tTrain.setLineIndicator(LineIndicator.METRO);
+            tTrain.setDirection(Direction.DOWN);
 
             tTrain.setTime(mCursor.getString(1));
             trainsTime.add(tTrain.getTime());
@@ -855,7 +861,8 @@ public class TrackTracerDataBaseAdapter {
             tTrain.setTime(mCursor.getString(1));
             trainsTime.add(tTrain.getTime());
             allMetroUPTrainTimeShortedList.add(tTrain.getTime());
-
+            tTrain.setLineIndicator(LineIndicator.MONO);
+            tTrain.setDirection(Direction.UP);
 //		  SourceDestination tSourceDestination = getSourceDestinationByTrainNo(mCursor.getString(0));;
             tTrain.setSource(MonoStationName.CHEMBUR);
             tTrain.setDestination(MonoStationName.WADALA);
@@ -908,7 +915,8 @@ public class TrackTracerDataBaseAdapter {
             Train tTrain = new Train();
 
             tTrain.setTrainKey(mCursor.getString(0));
-
+            tTrain.setLineIndicator(LineIndicator.MONO);
+            tTrain.setDirection(Direction.DOWN);
             tTrain.setTime(mCursor.getString(1));
             trainsTime.add(tTrain.getTime());
             allMetroUPTrainTimeShortedList.add(tTrain.getTime());
@@ -1055,5 +1063,43 @@ public class TrackTracerDataBaseAdapter {
 //return tAllHarberLineUpTrain;
 //}
 
+    public List<Train> retriveSingleTrain(String trainKey,int line,int direction) {
+        List<Train> tAllHarberLineUpTrain=new ArrayList<Train>();
+        Cursor mCursor = null;
+//        if(line == LineIndicator.WESTERN && direction == Direction.UP){
+//            mCursor= mDb.query(Asm.WESTERN_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line == LineIndicator.WESTERN && direction == Direction.DOWN){
+//            mCursor= mDb.query(Asm.WESTERN_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line == LineIndicator.CENTER && direction == Direction.UP){
+//            mCursor= mDb.query(Asm.CENTRAL_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line == LineIndicator.CENTER && direction == Direction.DOWN){
+//            mCursor= mDb.query(Asm.CENTRAL_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line == LineIndicator.HARBOUR && direction == Direction.UP){
+//            mCursor= mDb.query(Asm.HARBER_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line == LineIndicator.HARBOUR && direction == Direction.DOWN){
+//            mCursor= mDb.query(Asm.HARBER_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }
+         if(line == LineIndicator.METRO && direction == Direction.UP){
+            mCursor= mTrackTracerDataBase.query(Asm.METRO_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+        }else if(line == LineIndicator.METRO && direction == Direction.DOWN){
+            mCursor= mTrackTracerDataBase.query(Asm.METRO_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+        }
+//        else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("up")){
+//            mCursor= mDb.query(Asm.MONO_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("down")){
+//            mCursor= mDb.query(Asm.MONO_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+//        }
+
+        while (mCursor.moveToNext()){
+            Train tTrain = new Train();
+            tTrain.setTrainKey(trainKey);
+            tTrain.setStationKey(Boot.getHarberStationNameByCode(mCursor.getString(0)));
+            tTrain.setTime(mCursor.getString(1));
+            tAllHarberLineUpTrain.add(tTrain);
+        }
+        mCursor.close();
+
+        return tAllHarberLineUpTrain;
+    }
 
 }

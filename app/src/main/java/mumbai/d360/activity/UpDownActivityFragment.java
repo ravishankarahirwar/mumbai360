@@ -96,15 +96,16 @@ public class UpDownActivityFragment extends Fragment {
                 tAllDownTrain = mMessageDBAdapter.retriveAllHarberDownTrainByStation(station.getStationCode());
                 break;
             case LineIndicator.METRO :
-                tAllUpTrain = mMessageDBAdapter.retriveAllMetroUPTrainByStation(station.getStationCode());
-                tAllDownTrain = mMessageDBAdapter.retriveAllMetroDownTrainByStation(station.getStationCode());
+                tAllUpTrain = mTrackTracerDataBaseAdapter.retriveAllMetroUPTrainByStation(station.getName());
+                tAllDownTrain = mTrackTracerDataBaseAdapter.retriveAllMetroDownTrainByStation(station.getName());
                 break;
             case LineIndicator.MONO :
+                tAllUpTrain = mTrackTracerDataBaseAdapter.retriveAllMONOUPTrainByStation(station.getName());
+                tAllDownTrain = mTrackTracerDataBaseAdapter.retriveAllMONODownTrainByStation(station.getName());
                 break;
         }
 
-//        tAllUpTrain = mTrackTracerDataBaseAdapter.retriveAllMONOUPTrainByStation(MonoStationName.WADALA);
-//        tAllDownTrain = mTrackTracerDataBaseAdapter.retriveAllMONODownTrainByStation(MonoStationName.WADALA);
+
 
         mAdapterUp = new UpDownAdapter(mContext, tAllUpTrain, mListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
