@@ -102,11 +102,11 @@ public class TrainScheduleActivityFragment extends Fragment {
         }else if(line == LineIndicator.METRO && direction == Direction.DOWN){
             singleTrainInfo = mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,LineIndicator.METRO,direction);
         }
-//        else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("up")){
-//            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
-//        }else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("down")){
-//            singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
-//        }
+        else if(line == LineIndicator.MONO && direction == Direction.UP){
+            singleTrainInfo= mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,line,direction);
+        }else if(line == LineIndicator.MONO && direction == Direction.DOWN){
+            singleTrainInfo= mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,line,direction);
+        }
 
         mListView.setAdapter(new SingleTrainInfoAdapter(getContext(),singleTrainInfo,bgColor,stationName));
     }

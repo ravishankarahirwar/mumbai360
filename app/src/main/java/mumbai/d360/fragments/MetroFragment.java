@@ -3,6 +3,8 @@ package mumbai.d360.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,16 +20,15 @@ import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
 import mumbai.d360.model.Station;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.google.android.gms.plus.PlusOneButton;
 
 
-public class MetroFragment extends Fragment {
+public class MetroFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // The request code must be 0 or greater.
     private static final int PLUS_ONE_REQUEST_CODE = 0;
-    // The URL to +1.  Must be a valid URL.
     private final String PLUS_ONE_URL = "http://developer.android.com";
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -37,6 +38,8 @@ public class MetroFragment extends Fragment {
     private OnStationSelect mListener;
     private MetroMonoAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private FloatingSearchView mSearchView;
+    private AppBarLayout mAppBar;
 
     public MetroFragment() {
         // Required empty public constructor
@@ -74,6 +77,10 @@ public class MetroFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_metro, container, false);
+        mSearchView =  rootView.findViewById(R.id.floating_search_view);
+
+        mAppBar = rootView.findViewById(R.id.appbar);
+        mAppBar.addOnOffsetChangedListener(this);
 
         //Find the +1 button
 //        mPlusOneButton = (PlusOneButton) rootView.findViewById(R.id.plus_one_button);
@@ -129,4 +136,23 @@ public class MetroFragment extends Fragment {
         void onMetroStationSelect(Station station);
     }
 
+    @Override
+    public boolean onActivityBackPress() {
+        return false;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupDrawer();
+    }
+
+    private void setupDrawer() {
+        attachSearchViewActivityDrawer(mSearchView);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        mSearchView.setTranslationY(verticalOffset);
+    }
 }

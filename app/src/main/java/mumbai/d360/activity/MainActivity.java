@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,17 +57,21 @@ public class MainActivity extends AppCompatActivity
     private MapFragment mapFragment;
     private TransparentProgressDialog pd;
     MessageDBAdapter mMessageDBAdapter;
-//    private FloatingSearchView mSearchView;
-    SearchData mSearchData;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+        FirebaseCrash.log("Activity created");
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         mMessageDBAdapter = MessageDBAdapter.getInstance(mContext.getApplicationContext());
         mMessageDBAdapter.open();
 
-        List<Station> wrStations = mMessageDBAdapter.retriveAllWesternLineStation();
+//        List<Station> wrStations = mMessageDBAdapter.retriveAllWesternLineStation();
 
         pd = new TransparentProgressDialog(this, R.drawable.p4);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,26 +194,44 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_map:
-//                search.setBackgroundResource(android.R.color.transparent);
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Navigation Menu");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Train Google Map");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Nav_Menu");
+
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 mapFragment = MapFragment.newInstance("", "");
-                fragmentTransaction.replace(R.id.fragment_container, mapFragment);
-                fragmentTransaction.commit();
+
+                showFragment(mapFragment);
                 break;
             case R.id.nav_local:
-//                search.setBackgroundResource(R.color.colorPrimary);
+                bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Local Train");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Nav_Menu");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 LocalFragment mLocalFragment = LocalFragment.newInstance("", "");
-                fragmentTransaction.replace(R.id.fragment_container, mLocalFragment);
-                fragmentTransaction.commit();
+                showFragment(mLocalFragment);
+
                 break;
             case R.id.nav_metro:
+                bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Metro Train");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Nav_Menu");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 MetroFragment mMetroFragment = MetroFragment.newInstance("", "");
-                fragmentTransaction.replace(R.id.fragment_container, mMetroFragment);
-                fragmentTransaction.commit();
+                showFragment(mMetroFragment);
+
                 break;
             case R.id.nav_mono:
+                bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Mono Train");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Nav_Menu");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 MonoFragment mMonoFragment = MonoFragment.newInstance("", "");
-                fragmentTransaction.replace(R.id.fragment_container, mMonoFragment);
-                fragmentTransaction.commit();
+                showFragment(mMonoFragment);
                 break;
         }
 
@@ -227,6 +251,12 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("stKey", station.getStationCode());
         intent.putExtra("line", station.getLineIndicator());
         intent.putExtra("id", station.getId());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Station Select");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, station.getStationCode());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Nav_Menu");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         startActivity(intent);
     }

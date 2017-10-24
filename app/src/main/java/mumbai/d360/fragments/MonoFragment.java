@@ -3,6 +3,8 @@ package mumbai.d360.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+
 import mumbai.d360.R;
 import mumbai.d360.adapter.MetroMonoAdapter;
 import mumbai.d360.adapter.StationNameAdapter;
@@ -18,15 +22,7 @@ import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
 import mumbai.d360.dataprovider.mono.MonoStationDataProvider;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MonoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MonoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MonoFragment extends Fragment {
+public class MonoFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,7 +35,7 @@ public class MonoFragment extends Fragment {
     private OnStationSelect mListener;
     private MetroMonoAdapter mAdapter;
     private RecyclerView mRecyclerView;
-
+    private FloatingSearchView mSearchView;
 
     public MonoFragment() {
         // Required empty public constructor
@@ -77,6 +73,7 @@ public class MonoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mono, container, false);
+        mSearchView =  rootView.findViewById(R.id.floating_search_view);
 
 
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.mono_station_list);
@@ -105,5 +102,24 @@ public class MonoFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupDrawer();
+    }
+
+    private void setupDrawer() {
+        attachSearchViewActivityDrawer(mSearchView);
+    }
+
+    @Override
+    public boolean onActivityBackPress() {
+        return false;
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        mSearchView.setTranslationY(verticalOffset);
     }
 }

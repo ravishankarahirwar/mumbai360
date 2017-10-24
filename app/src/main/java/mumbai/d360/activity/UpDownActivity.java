@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.List;
 
 import mumbai.d360.R;
@@ -21,10 +23,15 @@ import mumbai.d360.model.Train;
 
 public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
     UpDownActivityFragment instanceFragment;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_down);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,6 +66,12 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
         intent.putExtra("source_destination", trainInfo.getSource() + " - " + trainInfo.getDestination());
         intent.putExtra("line", trainInfo.getLineIndicator());
         intent.putExtra("direction", trainInfo.getDirection());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Train Select");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, trainInfo.getTrainKey());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Train");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         startActivity(intent);
     }
 }

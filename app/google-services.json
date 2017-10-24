@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "94003275275",
+    "firebase_url": "https://api-project-94003275275.firebaseio.com",
+    "project_id": "api-project-94003275275",
+    "storage_bucket": "api-project-94003275275.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94003275275:android:9845c5996effe3a5",
+        "android_client_info": {
+          "package_name": "mumbai.d360"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94003275275-topdp1k0dc6bvcocp940mrbmc4sfpiai.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mumbai.d360",
+            "certificate_hash": "74c27a30375c24385a6b8242546f3040b262d017"
+          }
+        },
+        {
+          "client_id": "94003275275-nuvu1nkmjoqtmbmhnvqgf05r6e2d5u4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDEQlHDXzsINbvOB7cSMx2ap5C4PjO4Q0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94003275275-nuvu1nkmjoqtmbmhnvqgf05r6e2d5u4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

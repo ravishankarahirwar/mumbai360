@@ -1079,21 +1079,22 @@ public class TrackTracerDataBaseAdapter {
 //        }else if(line == LineIndicator.HARBOUR && direction == Direction.DOWN){
 //            mCursor= mDb.query(Asm.HARBER_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
 //        }
-         if(line == LineIndicator.METRO && direction == Direction.UP){
+        if(line == LineIndicator.METRO && direction == Direction.UP){
             mCursor= mTrackTracerDataBase.query(Asm.METRO_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
         }else if(line == LineIndicator.METRO && direction == Direction.DOWN){
             mCursor= mTrackTracerDataBase.query(Asm.METRO_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+        } else if(line == LineIndicator.MONO && direction == Direction.UP){
+            mCursor= mTrackTracerDataBase.query(Asm.MONO_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
+        }else if(line == LineIndicator.MONO && direction == Direction.DOWN){
+            mCursor= mTrackTracerDataBase.query(Asm.MONO_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
         }
-//        else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("up")){
-//            mCursor= mDb.query(Asm.MONO_UP_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
-//        }else if(line.equalsIgnoreCase("mono")&&direction.equalsIgnoreCase("down")){
-//            mCursor= mDb.query(Asm.MONO_DOWN_TRAIN_TIMETABLE, new String[] {ColumnsName.TIMETABLE.STKEY,ColumnsName.TIMETABLE.TIME},ColumnsName.TIMETABLE.TRAINKEY+"='"+ trainKey+"'" , null, null, null, null);
-//        }
 
         while (mCursor.moveToNext()){
             Train tTrain = new Train();
             tTrain.setTrainKey(trainKey);
-            tTrain.setStationKey(Boot.getHarberStationNameByCode(mCursor.getString(0)));
+//            tTrain.setStationKey(Boot.getHarberStationNameByCode(mCursor.getString(0)));
+            tTrain.setStationKey(mCursor.getString(0));
+
             tTrain.setTime(mCursor.getString(1));
             tAllHarberLineUpTrain.add(tTrain);
         }
