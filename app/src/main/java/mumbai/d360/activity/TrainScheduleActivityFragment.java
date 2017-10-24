@@ -1,5 +1,7 @@
 package mumbai.d360.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
@@ -40,6 +42,7 @@ public class TrainScheduleActivityFragment extends Fragment {
     String stationName;
     TextView no,time,station;
     Typeface custom_font;
+    Context mContext;
 
     public TrackTracerDataBaseAdapter mTrackTracerDataBaseAdapter;
     private MessageDBAdapter mMessageDBAdapter;
@@ -109,5 +112,30 @@ public class TrainScheduleActivityFragment extends Fragment {
         }
 
         mListView.setAdapter(new SingleTrainInfoAdapter(getContext(),singleTrainInfo,bgColor,stationName));
+    }
+
+    // Call to update the share intent
+    public void setShareIntent() {
+            trainShareSubject="[ "+trainSourceDestination+" ]\n";
+
+            for(int i=0;i<singleTrainInfo.size();i++){
+                if(singleTrainInfo.get(i).getStationKey().equalsIgnoreCase(stationName))
+                    trainShareText+="[ "+singleTrainInfo.get(i).getStationKey() +"* - "+singleTrainInfo.get(i).getTime() +" ]\n";
+                else
+                    trainShareText+="[ "+singleTrainInfo.get(i).getStationKey() +" - "+singleTrainInfo.get(i).getTime() +" ]\n";
+            }
+        Intent shareIntent = new Intent();
+         shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            String shareBody = trainShareText;
+            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, trainShareSubject);
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            mContext.startActivity(Intent.createChooser(shareIntent, "Share Train"));
+        }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 }

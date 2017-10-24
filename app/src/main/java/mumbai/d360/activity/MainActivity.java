@@ -233,6 +233,31 @@ public class MainActivity extends AppCompatActivity
                 MonoFragment mMonoFragment = MonoFragment.newInstance("", "");
                 showFragment(mMonoFragment);
                 break;
+
+            case R.id.nav_share:
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Mumbai 360");
+                    String sAux = "\nLet me recommend you this application\n\n";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=mumbai.d360 \n\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "Share"));
+                } catch(Exception e) {
+                    //e.toString();
+                }
+                break;
+
+            case R.id.nav_send:
+
+                Intent Email = new Intent(Intent.ACTION_SEND);
+                Email.setType("text/email");
+                Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "ravishankar.ahirwar@gmail.com" });
+                Email.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                Email.putExtra(Intent.EXTRA_TEXT, "Dear ...," + "");
+                startActivity(Intent.createChooser(Email, "Send Feedback:"));
+
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

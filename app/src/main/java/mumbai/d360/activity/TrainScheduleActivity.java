@@ -13,6 +13,7 @@ import mumbai.d360.model.Train;
 
 public class TrainScheduleActivity extends AppCompatActivity {
     TrainScheduleActivityFragment trainScheduleActivityFragment;
+    FloatingActionButton share;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,15 @@ public class TrainScheduleActivity extends AppCompatActivity {
         trainScheduleActivityFragment =
                 (TrainScheduleActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_train_schedule);
         trainScheduleActivityFragment.onTrainSeclected(trainkey,source_destination,line,direction);
+
+        share = (FloatingActionButton) findViewById(R.id.share);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trainScheduleActivityFragment.setShareIntent();
+
+            }
+        });
     }
 
 }
