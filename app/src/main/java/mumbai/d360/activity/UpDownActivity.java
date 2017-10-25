@@ -24,7 +24,7 @@ import mumbai.d360.model.Train;
 public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
     UpDownActivityFragment instanceFragment;
     private FirebaseAnalytics mFirebaseAnalytics;
-
+    String stationName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
          instanceFragment=
                 (UpDownActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_updown);
 
-        String stationName = getIntent().getExtras().getString("station_name");
+        stationName = getIntent().getExtras().getString("station_name");
         String stKey = getIntent().getExtras().getString("stKey");
         int line = getIntent().getExtras().getInt("line");
 
@@ -62,6 +62,8 @@ public class UpDownActivity extends AppCompatActivity implements OnTrainSelect {
     @Override
     public void onTrainSelect(Train trainInfo) {
         Intent intent = new Intent(UpDownActivity.this, TrainScheduleActivity.class);
+        stationName = getIntent().getExtras().getString("station_name");
+        intent.putExtra("station_at", stationName);
         intent.putExtra("trainkey", trainInfo.getTrainKey());
         intent.putExtra("source_destination", trainInfo.getSource() + " - " + trainInfo.getDestination());
         intent.putExtra("line", trainInfo.getLineIndicator());

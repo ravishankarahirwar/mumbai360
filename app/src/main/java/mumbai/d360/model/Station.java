@@ -5,8 +5,6 @@ import android.os.Parcel;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.android.gms.maps.model.LatLng;
 
-import mumbai.d360.searchdata.ColorSuggestion;
-
 /**
  * Created by Ravishankar on 12/10/2016.
  */

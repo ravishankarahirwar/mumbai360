@@ -14,6 +14,7 @@ import mumbai.d360.model.Train;
 public class TrainScheduleActivity extends AppCompatActivity {
     TrainScheduleActivityFragment trainScheduleActivityFragment;
     FloatingActionButton share;
+    String stationAt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,8 @@ public class TrainScheduleActivity extends AppCompatActivity {
         String source_destination = getIntent().getExtras().getString("source_destination");
         int line = getIntent().getExtras().getInt("line");
         int direction = getIntent().getExtras().getInt("direction");
+        stationAt = getIntent().getExtras().getString("station_at");
+
 
         setTitle(source_destination);
         trainScheduleActivityFragment =
@@ -36,7 +39,7 @@ public class TrainScheduleActivity extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                trainScheduleActivityFragment.setShareIntent();
+                trainScheduleActivityFragment.setShareIntent(stationAt);
 
             }
         });

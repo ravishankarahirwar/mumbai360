@@ -115,15 +115,18 @@ public class TrainScheduleActivityFragment extends Fragment {
     }
 
     // Call to update the share intent
-    public void setShareIntent() {
+    public void setShareIntent(String stationAt) {
             trainShareSubject="[ "+trainSourceDestination+" ]\n";
-
-            for(int i=0;i<singleTrainInfo.size();i++){
-                if(singleTrainInfo.get(i).getStationKey().equalsIgnoreCase(stationName))
-                    trainShareText+="[ "+singleTrainInfo.get(i).getStationKey() +"* - "+singleTrainInfo.get(i).getTime() +" ]\n";
-                else
-                    trainShareText+="[ "+singleTrainInfo.get(i).getStationKey() +" - "+singleTrainInfo.get(i).getTime() +" ]\n";
+        trainShareText += "From: " + singleTrainInfo.get(0).getStationKey() + "\n";
+        trainShareText += "To: " + singleTrainInfo.get(singleTrainInfo.size() - 1).getStationKey() + "\n\n";
+        for(int i=0;i<singleTrainInfo.size();i++){
+                if(singleTrainInfo.get(i).getStationKey().equalsIgnoreCase(stationAt)) {
+                    trainShareText += "*[ " + singleTrainInfo.get(i).getStationKey() + "* - " + singleTrainInfo.get(i).getTime() + " ]*\n";
+                } else {
+                    trainShareText += "[ " + singleTrainInfo.get(i).getStationKey() + " - " + singleTrainInfo.get(i).getTime() + " ]\n";
+                }
             }
+
         Intent shareIntent = new Intent();
          shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");

@@ -13,25 +13,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mumbai.d360.R;
 import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.database.TrackTracerDataBaseAdapter;
 import mumbai.d360.database.offlinedb.MessageDBAdapter;
-import mumbai.d360.dataprovider.search.SearchData;
 import mumbai.d360.dialog.TransparentProgressDialog;
 import mumbai.d360.fragments.BaseFragment;
 import mumbai.d360.fragments.LocalFragment;
@@ -39,10 +34,6 @@ import mumbai.d360.fragments.MapFragment;
 import mumbai.d360.fragments.MetroFragment;
 import mumbai.d360.fragments.MonoFragment;
 import mumbai.d360.model.Station;
-import mumbai.d360.searchdata.ColorSuggestion;
-import mumbai.d360.utils.LineIndicator;
-
-import static mumbai.d360.searchdata.DataHelper.*;
 
 
 public class MainActivity extends AppCompatActivity

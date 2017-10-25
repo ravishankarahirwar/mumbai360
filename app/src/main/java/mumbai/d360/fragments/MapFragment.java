@@ -3,9 +3,7 @@ package mumbai.d360.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -21,40 +19,30 @@ import android.widget.Toast;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import mumbai.d360.R;
-import mumbai.d360.activity.MainActivity;
 import mumbai.d360.activity.UpDownActivity;
-import mumbai.d360.callbacks.OnStationSelect;
-import mumbai.d360.data.Bootstrap;
-import mumbai.d360.data.SearchMatch;
 import mumbai.d360.data.StationCollection;
-import mumbai.d360.data.StationLocation;
 import mumbai.d360.database.offlinedb.MessageDBAdapter;
 import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
 import mumbai.d360.dataprovider.mono.MonoStationDataProvider;
 import mumbai.d360.dataprovider.search.SearchData;
 import mumbai.d360.model.Station;
-import mumbai.d360.searchdata.ColorSuggestion;
+import mumbai.d360.searchdata.SearchSuggestion;
 import mumbai.d360.searchdata.DataHelper;
 import mumbai.d360.utils.LineIndicator;
 
@@ -272,7 +260,7 @@ public class MapFragment extends BaseFragment {
                             FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
 
                                 @Override
-                                public void onResults(List<ColorSuggestion> results) {
+                                public void onResults(List<Station> results) {
 
                                     //this will swap the data and
                                     //render the collapse/expand animations as necessary
@@ -292,7 +280,7 @@ public class MapFragment extends BaseFragment {
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
-            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+            public void onSuggestionClicked(final com.arlib.floatingsearchview.suggestions.model.SearchSuggestion searchSuggestion) {
                 Station stationLocation = ((Station) searchSuggestion);
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(stationLocation.getLocation()).zoom(20).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -309,7 +297,7 @@ public class MapFragment extends BaseFragment {
 
 //                startUpDownActivity( (Station) searchSuggestion);
 //
-//                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
+//                SearchSuggestion colorSuggestion = (SearchSuggestion) searchSuggestion;
 //                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
 //                        new DataHelper.OnFindColorsListener() {
 //
@@ -407,7 +395,7 @@ public class MapFragment extends BaseFragment {
         mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
             @Override
             public void onBindSuggestion(View suggestionView, ImageView leftIcon,
-                                         TextView textView, SearchSuggestion item, int itemPosition) {
+                                         TextView textView, com.arlib.floatingsearchview.suggestions.model.SearchSuggestion item, int itemPosition) {
                 Station station = (Station) item;
 
                 String textColor = true ? "#bfbfbf" : "#000000";
@@ -490,9 +478,9 @@ public class MapFragment extends BaseFragment {
                 }
 
                 FilterResults results = new FilterResults();
-//                Collections.sort(suggestionList, new Comparator<ColorSuggestion>() {
+//                Collections.sort(suggestionList, new Comparator<SearchSuggestion>() {
 //                    @Override
-//                    public int compare(ColorSuggestion lhs, ColorSuggestion rhs) {
+//                    public int compare(SearchSuggestion lhs, SearchSuggestion rhs) {
 //                        return lhs.getIsHistory() ? -1 : 0;
 //                    }
 //                });
@@ -506,7 +494,7 @@ public class MapFragment extends BaseFragment {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<ColorSuggestion>) results.values);
+                    listener.onResults((List<Station>) results.values);
                 }
             }
         }.filter(query);

@@ -1,23 +1,20 @@
 package mumbai.d360.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,22 +26,18 @@ import android.widget.Toast;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.arlib.floatingsearchview.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mumbai.d360.R;
-import mumbai.d360.activity.MainActivity;
 import mumbai.d360.activity.UpDownActivity;
 import mumbai.d360.adapter.StationNameAdapter;
 import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.database.offlinedb.MessageDBAdapter;
-import mumbai.d360.dataprovider.metro.MetroStationDataProvider;
 import mumbai.d360.dataprovider.search.SearchData;
 import mumbai.d360.model.Station;
-import mumbai.d360.searchdata.ColorSuggestion;
+import mumbai.d360.searchdata.SearchSuggestion;
 import mumbai.d360.searchdata.DataHelper;
 import mumbai.d360.utils.LineIndicator;
 
@@ -193,7 +186,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
                             FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
 
                                 @Override
-                                public void onResults(List<ColorSuggestion> results) {
+                                public void onResults(List<Station> results) {
 
                                     //this will swap the data and
                                     //render the collapse/expand animations as necessary
@@ -213,10 +206,10 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
 
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
-            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+            public void onSuggestionClicked(final com.arlib.floatingsearchview.suggestions.model.SearchSuggestion searchSuggestion) {
                 startUpDownActivity( (Station) searchSuggestion);
 //
-//                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
+//                SearchSuggestion colorSuggestion = (SearchSuggestion) searchSuggestion;
 //                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
 //                        new DataHelper.OnFindColorsListener() {
 //
@@ -280,7 +273,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
             @Override
             public void onActionMenuItemSelected(MenuItem item) {
 
-                if (item.getItemId() == R.id.action_voice_rec) {
+                if (item.getItemId() == R.id.action_voice) {
                     startVoiceRecognitionActivity();
                 } else {
                     //just print action
@@ -314,7 +307,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
         mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
             @Override
             public void onBindSuggestion(View suggestionView, ImageView leftIcon,
-                                         TextView textView, SearchSuggestion item, int itemPosition) {
+                                         TextView textView, com.arlib.floatingsearchview.suggestions.model.SearchSuggestion item, int itemPosition) {
                 Station station = (Station) item;
 
                 String textColor = true ? "#bfbfbf" : "#000000";
@@ -369,6 +362,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
             ArrayList matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             Toast.makeText(mContext, matches.get(0).toString(), Toast.LENGTH_SHORT).show();
             String enquiry = matches.get(0).toString();
+            onVoiceSearch(enquiry);
         }
     }
 
@@ -401,4 +395,54 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
         }
         return true;
     }
+
+    private void onVoiceSearch(final String query) {
+        mSearchData.findSuggestions(mContext, query, 5,
+                FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
+
+                    @Override
+                    public void onResults(final List<Station> results) {
+
+
+                        if(results.isEmpty()||results.size()==0){
+                            Toast.makeText(mContext, "No Resumt found for : "+ query, Toast.LENGTH_SHORT).show();
+                        }else if(results.size()==1){
+                            startUpDownActivity(results.get(0));
+
+                        }else if(results.size()>1){
+                            final String[] items =new String[results.size()];
+                            for(int i=0;i<results.size();i++){
+                                items[i]=results.get(i).getName().toString()+"("+getLineIndicatorName(results.get(i).getLineIndicator())+ ")";
+                            }
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setTitle("Make your selection");
+                            builder.setItems(items, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int location) {
+                                    startUpDownActivity(results.get(location));
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }else{
+                            Toast.makeText(mContext, "No Resumt found for : "+query, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        }
+
+        private String getLineIndicatorName(int line) {
+            switch (line) {
+                case LineIndicator.WESTERN:
+                    return "WESTERN";
+                case LineIndicator.CENTER:
+                    return "CENTER";
+                case LineIndicator.HARBOUR:
+                    return "HARBOUR";
+                case LineIndicator.METRO:
+                    return "METRO";
+                case LineIndicator.MONO:
+                    return "MONO";
+            }
+            return "";
+        }
 }

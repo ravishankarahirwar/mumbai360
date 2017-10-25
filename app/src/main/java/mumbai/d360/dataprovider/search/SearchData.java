@@ -5,16 +5,13 @@ import android.widget.Filter;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import mumbai.d360.R;
 import mumbai.d360.data.StationLocation;
 import mumbai.d360.dataprovider.metro.MetroStationNames;
 import mumbai.d360.dataprovider.mono.MonoStationName;
 import mumbai.d360.model.Station;
-import mumbai.d360.searchdata.ColorSuggestion;
+import mumbai.d360.searchdata.SearchSuggestion;
 import mumbai.d360.searchdata.DataHelper;
 import mumbai.d360.utils.LineIndicator;
 
@@ -250,9 +247,9 @@ public class SearchData {
                 }
 
                 FilterResults results = new FilterResults();
-//                Collections.sort(suggestionList, new Comparator<ColorSuggestion>() {
+//                Collections.sort(suggestionList, new Comparator<SearchSuggestion>() {
 //                    @Override
-//                    public int compare(ColorSuggestion lhs, ColorSuggestion rhs) {
+//                    public int compare(SearchSuggestion lhs, SearchSuggestion rhs) {
 //                        return lhs.getIsHistory() ? -1 : 0;
 //                    }
 //                });
@@ -266,7 +263,7 @@ public class SearchData {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<ColorSuggestion>) results.values);
+                    listener.onResults((List<Station>) results.values);
                 }
             }
         }.filter(query);

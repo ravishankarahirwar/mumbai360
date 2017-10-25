@@ -13,12 +13,11 @@
         app:showAsAction="ifRoom"
         android:visible="false"
         android:icon="@drawable/ic_my_location_black_24dp"/>
-    <item android:id="@+id/action_taxi"
+    <item android:id="@+id/action_voice"
         android:title="@string/action_taxi"
         android:orderInCategory="3"
-        android:visible="false"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_local_taxi_black_24dp"/>
+        android:icon="@drawable/ic_keyboard_voice_black_24dp"/>
     <item android:id="@+id/action_change_colors"
         android:title="@string/action_change_colors"
         android:orderInCategory="4"

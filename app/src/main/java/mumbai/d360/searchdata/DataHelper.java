@@ -20,57 +20,56 @@ import android.content.Context;
 import android.widget.Filter;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import mumbai.d360.model.Station;
+
 public class DataHelper {
 
     private static final String COLORS_FILE_NAME = "colors.json";
 
 
-    private static List<ColorSuggestion> sColorSuggestions =
+    private static List<SearchSuggestion> sSearchSuggestions =
             new ArrayList<>(Arrays.asList(
-                    new ColorSuggestion("green","CST"),
-                    new ColorSuggestion("blue","CST"),
-                    new ColorSuggestion("pink","CST"),
-                    new ColorSuggestion("purple","CST"),
-                    new ColorSuggestion("brown","CST"),
-                    new ColorSuggestion("gray","CST"),
-                    new ColorSuggestion("Granny Smith Apple","CST"),
-                    new ColorSuggestion("Indigo","CST"),
-                    new ColorSuggestion("Periwinkle","CST"),
-                    new ColorSuggestion("Mahogany","CST"),
-                    new ColorSuggestion("Maize","CST"),
-                    new ColorSuggestion("Mahogany","CST"),
-                    new ColorSuggestion("Outer Space","CST"),
-                    new ColorSuggestion("Melon","CST"),
-                    new ColorSuggestion("Yellow","CST"),
-                    new ColorSuggestion("Orange","CST"),
-                    new ColorSuggestion("Red","CST"),
-                    new ColorSuggestion("Orchid","CST")));
+                    new SearchSuggestion("green","CST"),
+                    new SearchSuggestion("blue","CST"),
+                    new SearchSuggestion("pink","CST"),
+                    new SearchSuggestion("purple","CST"),
+                    new SearchSuggestion("brown","CST"),
+                    new SearchSuggestion("gray","CST"),
+                    new SearchSuggestion("Granny Smith Apple","CST"),
+                    new SearchSuggestion("Indigo","CST"),
+                    new SearchSuggestion("Periwinkle","CST"),
+                    new SearchSuggestion("Mahogany","CST"),
+                    new SearchSuggestion("Maize","CST"),
+                    new SearchSuggestion("Mahogany","CST"),
+                    new SearchSuggestion("Outer Space","CST"),
+                    new SearchSuggestion("Melon","CST"),
+                    new SearchSuggestion("Yellow","CST"),
+                    new SearchSuggestion("Orange","CST"),
+                    new SearchSuggestion("Red","CST"),
+                    new SearchSuggestion("Orchid","CST")));
 
 //    public interface OnFindColorsListener {
 //        void onResults(List<ColorWrapper> results);
 //    }
 
     public interface OnFindSuggestionsListener {
-        void onResults(List<ColorSuggestion> results);
+        void onResults(List<Station> results);
     }
 
-    public static List<ColorSuggestion> getHistory(Context context, int count) {
+    public static List<SearchSuggestion> getHistory(Context context, int count) {
 
-        List<ColorSuggestion> suggestionList = new ArrayList<>();
-        ColorSuggestion colorSuggestion;
-        for (int i = 0; i < sColorSuggestions.size(); i++) {
-            colorSuggestion = sColorSuggestions.get(i);
-            colorSuggestion.setIsHistory(true);
-            suggestionList.add(colorSuggestion);
+        List<SearchSuggestion> suggestionList = new ArrayList<>();
+        SearchSuggestion searchSuggestion;
+        for (int i = 0; i < sSearchSuggestions.size(); i++) {
+            searchSuggestion = sSearchSuggestions.get(i);
+            searchSuggestion.setIsHistory(true);
+            suggestionList.add(searchSuggestion);
             if (suggestionList.size() == count) {
                 break;
             }
@@ -79,8 +78,8 @@ public class DataHelper {
     }
 
     public static void resetSuggestionsHistory() {
-        for (ColorSuggestion colorSuggestion : sColorSuggestions) {
-            colorSuggestion.setIsHistory(false);
+        for (SearchSuggestion searchSuggestion : sSearchSuggestions) {
+            searchSuggestion.setIsHistory(false);
         }
     }
 
@@ -98,10 +97,10 @@ public class DataHelper {
                 }
 
                 DataHelper.resetSuggestionsHistory();
-                List<ColorSuggestion> suggestionList = new ArrayList<>();
+                List<SearchSuggestion> suggestionList = new ArrayList<>();
                 if (!(constraint == null || constraint.length() == 0)) {
 
-                    for (ColorSuggestion suggestion : sColorSuggestions) {
+                    for (SearchSuggestion suggestion : sSearchSuggestions) {
                         if (suggestion.getBody().toUpperCase()
                                 .startsWith(constraint.toString().toUpperCase())) {
 
@@ -114,9 +113,9 @@ public class DataHelper {
                 }
 
                 FilterResults results = new FilterResults();
-                Collections.sort(suggestionList, new Comparator<ColorSuggestion>() {
+                Collections.sort(suggestionList, new Comparator<SearchSuggestion>() {
                     @Override
-                    public int compare(ColorSuggestion lhs, ColorSuggestion rhs) {
+                    public int compare(SearchSuggestion lhs, SearchSuggestion rhs) {
                         return lhs.getIsHistory() ? -1 : 0;
                     }
                 });
@@ -130,7 +129,7 @@ public class DataHelper {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<ColorSuggestion>) results.values);
+                    listener.onResults((List<Station>) results.values);
                 }
             }
         }.filter(query);

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class UpDownActivityFragment extends Fragment {
     private List<Train> tAllUpTrain,tAllDownTrain;
     public TrackTracerDataBaseAdapter mTrackTracerDataBaseAdapter;
     private MessageDBAdapter mMessageDBAdapter;
+    private TextView upTitle,downTitle;
 
     public UpDownActivityFragment() {
     }
@@ -54,6 +56,9 @@ public class UpDownActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_up_down, container, false);
         mUpList = (RecyclerView)rootView.findViewById(R.id.up_list);
         mDownList = (RecyclerView)rootView.findViewById(R.id.down_list);
+
+        upTitle = (TextView)rootView.findViewById(R.id.upTitle);
+        downTitle = (TextView)rootView.findViewById(R.id.downTitle);
 
         mTrackTracerDataBaseAdapter = new TrackTracerDataBaseAdapter(mContext);
         mTrackTracerDataBaseAdapter.open();
@@ -83,25 +88,33 @@ public class UpDownActivityFragment extends Fragment {
             case LineIndicator.WESTERN :
                 tAllUpTrain = mMessageDBAdapter.retriveAllWesternUPTrainByStation(station.getStationCode());
                 tAllDownTrain = mMessageDBAdapter.retriveAllWesternDownTrainByStation(station.getStationCode());
-
+                upTitle.setText("Churchgate");
+                downTitle.setText("Virar");
                 break;
             case LineIndicator.CENTER :
 
                 tAllUpTrain = mMessageDBAdapter.retriveAllCentralUPTrainByStation(station.getStationCode());
                 tAllDownTrain = mMessageDBAdapter.retriveAllCentralDownTrainByStation(station.getStationCode());
-
+                upTitle.setText("CST");
+                downTitle.setText("Kalyan");
                 break;
             case LineIndicator.HARBOUR :
                 tAllUpTrain = mMessageDBAdapter.retriveAllHarberUPTrainByStation(station.getStationCode());
                 tAllDownTrain = mMessageDBAdapter.retriveAllHarberDownTrainByStation(station.getStationCode());
+                upTitle.setText("CST");
+                downTitle.setText("Panvel");
                 break;
             case LineIndicator.METRO :
                 tAllUpTrain = mTrackTracerDataBaseAdapter.retriveAllMetroUPTrainByStation(station.getName());
                 tAllDownTrain = mTrackTracerDataBaseAdapter.retriveAllMetroDownTrainByStation(station.getName());
+                upTitle.setText("Versova");
+                downTitle.setText("Ghatkopar");
                 break;
             case LineIndicator.MONO :
                 tAllUpTrain = mTrackTracerDataBaseAdapter.retriveAllMONOUPTrainByStation(station.getName());
                 tAllDownTrain = mTrackTracerDataBaseAdapter.retriveAllMONODownTrainByStation(station.getName());
+                upTitle.setText("Wadala");
+                downTitle.setText("Chembur");
                 break;
         }
 

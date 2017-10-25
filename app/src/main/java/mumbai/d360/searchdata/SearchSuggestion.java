@@ -2,7 +2,6 @@ package mumbai.d360.searchdata;
 
 import android.os.Parcel;
 
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -21,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
  * limitations under the License.
  */
 
-public class ColorSuggestion implements SearchSuggestion {
+public class SearchSuggestion implements com.arlib.floatingsearchview.suggestions.model.SearchSuggestion {
     private String id;
     private String name;
     private String stationCode;
@@ -31,12 +30,12 @@ public class ColorSuggestion implements SearchSuggestion {
     private String mColorName;
     private boolean mIsHistory = false;
 
-    public ColorSuggestion(String suggestion, String stationCode) {
+    public SearchSuggestion(String suggestion, String stationCode) {
         this.mColorName = suggestion.toLowerCase();
         this.stationCode = stationCode;
     }
 
-    public ColorSuggestion(Parcel source) {
+    public SearchSuggestion(Parcel source) {
         this.mColorName = source.readString();
         this.stationCode = source.readString();
         this.mIsHistory = source.readInt() != 0;
@@ -63,15 +62,15 @@ public class ColorSuggestion implements SearchSuggestion {
         return mColorName;
     }
 
-    public static final Creator<ColorSuggestion> CREATOR = new Creator<ColorSuggestion>() {
+    public static final Creator<SearchSuggestion> CREATOR = new Creator<SearchSuggestion>() {
         @Override
-        public ColorSuggestion createFromParcel(Parcel in) {
-            return new ColorSuggestion(in);
+        public SearchSuggestion createFromParcel(Parcel in) {
+            return new SearchSuggestion(in);
         }
 
         @Override
-        public ColorSuggestion[] newArray(int size) {
-            return new ColorSuggestion[size];
+        public SearchSuggestion[] newArray(int size) {
+            return new SearchSuggestion[size];
         }
     };
 
@@ -85,5 +84,21 @@ public class ColorSuggestion implements SearchSuggestion {
         dest.writeString(mColorName);
         dest.writeString(stationCode);
         dest.writeInt(mIsHistory ? 1 : 0);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLineIndicator() {
+        return lineIndicator;
+    }
+
+    public void setLineIndicator(int lineIndicator) {
+        this.lineIndicator = lineIndicator;
     }
 }
