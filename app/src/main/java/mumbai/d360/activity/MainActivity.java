@@ -11,8 +11,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ import mumbai.d360.fragments.MonoFragment;
 import mumbai.d360.managers.PreferenceManager;
 import mumbai.d360.managers.SharedPreferenceManager;
 import mumbai.d360.model.Station;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 
 public class MainActivity extends AppCompatActivity
@@ -237,14 +240,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-
                 new ShowingProgress().execute(null, null, null);
-
-
             }
         });
     }
@@ -308,4 +307,5 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         finish();
     }
+
 }

@@ -9,9 +9,11 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -40,6 +42,7 @@ import mumbai.d360.model.Station;
 import mumbai.d360.searchdata.SearchSuggestion;
 import mumbai.d360.searchdata.DataHelper;
 import mumbai.d360.utils.LineIndicator;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 import static android.app.Activity.RESULT_OK;
 import static mumbai.d360.activity.MainActivity.FIND_SUGGESTION_SIMULATED_DELAY;
@@ -132,6 +135,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
         mHarberLine.setAdapter(hrStationAdapter);
 
         setupSearchBar();
+        showHamburgerMenuPrompt(mSearchView);
         return rootView;
     }
 
@@ -445,4 +449,33 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
             }
             return "";
         }
+
+
+
+    public void showHamburgerMenuPrompt(View targetView) {
+        final MaterialTapTargetPrompt.Builder tapTargetPromptBuilder = new MaterialTapTargetPrompt.Builder(getActivity())
+                .setPrimaryText("Switch to Map, Metro, Mono etc")
+                .setSecondaryText("You can switch to different transport and Search all station. Touch to close ")
+                .setFocalPadding(R.dimen.fab_guide_dp)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
+                .setAutoDismiss(false)
+                .setAutoFinish(false)
+                .setCaptureTouchEventOutsidePrompt(true)
+                .setIcon(R.drawable.ic_menu);
+
+        tapTargetPromptBuilder.setTarget(targetView.findViewById(R.id.left_action));
+
+        tapTargetPromptBuilder.setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener() {
+            @Override
+            public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state) {
+                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                    //Do something such as storing a value so that this prompt is never shown again
+                    prompt.finish();
+//                    showFabPrompt();
+                }
+            }
+        });
+        tapTargetPromptBuilder.show();
+    }
 }
