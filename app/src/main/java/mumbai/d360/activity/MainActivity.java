@@ -33,6 +33,8 @@ import mumbai.d360.fragments.LocalFragment;
 import mumbai.d360.fragments.MapFragment;
 import mumbai.d360.fragments.MetroFragment;
 import mumbai.d360.fragments.MonoFragment;
+import mumbai.d360.managers.PreferenceManager;
+import mumbai.d360.managers.SharedPreferenceManager;
 import mumbai.d360.model.Station;
 
 
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     MessageDBAdapter mMessageDBAdapter;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    protected PreferenceManager mPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,60 +65,10 @@ public class MainActivity extends AppCompatActivity
         mMessageDBAdapter = MessageDBAdapter.getInstance(mContext.getApplicationContext());
         mMessageDBAdapter.open();
 
-//        List<Station> wrStations = mMessageDBAdapter.retriveAllWesternLineStation();
-
         pd = new TransparentProgressDialog(this, R.drawable.p4);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container, mMetroFragment);
-//        fragmentTransaction.commit();
-
-//        search.setSearchListener(new SearchBox.SearchListener() {
-//
-//            @Override
-//            public void onSearchOpened() {
-//                //Use this to tint the screen
-//            }
-//
-//            @Override
-//            public void onSearchClosed() {
-//                //Use this to un-tint the screen
-//            }
-//
-//            @Override
-//            public void onSearchTermChanged(String term) {
-//                //React to the search term changing
-//                //Called after it has updated results
-////				Toast.makeText(MainActivity.this, "onSearchTermChanged", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onSearch(String searchTerm) {
-//                Toast.makeText(MainActivity.this, searchTerm + " Searched", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onResultClick(SearchResult result) {
-//                //React to a result being clicked
-//                Toast.makeText(MainActivity.this, result.title, Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onSearchCleared() {
-//                //Called when the clear button is clicked
-//
-//            }
-//
-//        });
-
-
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        mDrawerLayout.setDrawerListener(toggle);
-//        toggle.syncState();
+        mPreference = SharedPreferenceManager.getPreference();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -249,6 +202,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(Intent.createChooser(Email, "Send Feedback:"));
 
                 break;
+            case R.id.nav_language:
+                mPreference.setNewUser(true);
+                startLanguagePreferenceActivity();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -344,5 +301,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onAttachSearchViewToDrawer(FloatingSearchView searchView) {
         searchView.attachNavigationDrawerToMenuButton(mDrawerLayout);
+    }
+
+    private void startLanguagePreferenceActivity() {
+        Intent intent = new Intent(MainActivity.this, LanguagePreferenceActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

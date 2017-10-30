@@ -5,7 +5,10 @@ public class ColumnsName {
 	public interface STATIONS {
 		String _ID="_id";
 		String INDICATOR="indicator";
+		String NAME_HINDI="namehi";
+		String NAME_MARATHI="namemr";
 		String NAME="name";
+
 		String FEATURE="feature";
 		String LONGITUDE="longitude";
 		String LATITUDE="latitude";

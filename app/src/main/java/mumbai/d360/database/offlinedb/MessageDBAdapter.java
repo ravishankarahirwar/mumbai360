@@ -21,11 +21,14 @@ import mumbai.d360.database.Asm;
 import mumbai.d360.database.ColumnsName;
 import mumbai.d360.dataprovider.metro.MetroStationNames;
 import mumbai.d360.dataprovider.mono.MonoStationName;
+import mumbai.d360.managers.PreferenceManager;
+import mumbai.d360.managers.SharedPreferenceManager;
 import mumbai.d360.model.SourceDestination;
 import mumbai.d360.model.Station;
 import mumbai.d360.model.Train;
 import mumbai.d360.utils.Boot;
 import mumbai.d360.utils.Direction;
+import mumbai.d360.utils.Language;
 import mumbai.d360.utils.LineIndicator;
 import mumbai.d360.utils.TrainConstants;
 
@@ -55,12 +58,14 @@ public class MessageDBAdapter {
     private SharedPreferences sharedPrefs;
 
     private SimpleDateFormat simpleDateFormat;
+    protected PreferenceManager mPreference;
 
     public MessageDBAdapter(Context context) {
         this.mContext = context;
         mDbHelper = new DataBaseHelper(mContext);
         mFaverioteDBHelper = new FaverioteDBHelper(mContext);
         simpleDateFormat = new SimpleDateFormat("HH:mm");
+        mPreference = SharedPreferenceManager.getPreference();
         createDatabase();
     }
 
@@ -99,10 +104,27 @@ public class MessageDBAdapter {
     }
 
 //*****************WESTERN LINE OPERATION START************************
+    private String[] getColumn() {
+        String[] column;
+        switch (mPreference.getLanguage()) {
+
+            case Language.ENGLISH :
+                return new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE};
+
+            case Language.HINDI :
+                return new String[]{ColumnsName.STATIONS.NAME_HINDI, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE};
+
+            case Language.MARATHI :
+                return new String[]{ColumnsName.STATIONS.NAME_MARATHI, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE};
+
+            default :
+                return new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE};
+        }
+    }
 
     public List<Station> retriveAllWesternLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.WESTERN_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE,ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.WESTERN_LINE_STATIONS, getColumn(), null, null, null, null, null);
         mCursor.moveToFirst();
         int count = mCursor.getCount();
         for (int i = 0; i < mCursor.getCount(); i++) {
@@ -254,7 +276,6 @@ public class MessageDBAdapter {
         SourceDestination tSourceDestination = null;
         final Cursor srecCursor = mDb.query(Asm.WESTERN_UP_TRAINS, new String[] {ColumnsName.TRAINS.STARTST,ColumnsName.TRAINS.DESTST,ColumnsName.TRAINS.CARS,ColumnsName.TRAINS.FEATURE,ColumnsName.TRAINS.SPEED},ColumnsName.TRAINS.TRAINKEY+"='"+ TrainNo+"'" , null, null, null, null);
 
-
         if (srecCursor != null) {
             try {
                 if (srecCursor.moveToFirst()) {
@@ -281,7 +302,7 @@ public class MessageDBAdapter {
     //*****************CENTRAL LINE OPERATION START************************
     public List<Station> retriveAllCentralLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.CENTRAL_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE, ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.CENTRAL_LINE_STATIONS, getColumn(), null, null, null, null, null);
 
         while (mCursor.moveToNext()) {
             Station tStation = new Station();
@@ -481,7 +502,7 @@ public class MessageDBAdapter {
 
     public List<Station> retriveAllHarberLineStation() {
         List<Station> tAllHarberLineStation = new ArrayList<Station>();
-        Cursor mCursor = mDb.query(Asm.HARBER_LINE_STATIONS, new String[]{ColumnsName.STATIONS.NAME, ColumnsName.STATIONS.CODE, ColumnsName.STATIONS.LATITUDE, ColumnsName.STATIONS.LONGITUDE}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(Asm.HARBER_LINE_STATIONS, getColumn(), null, null, null, null, null);
         while (mCursor.moveToNext()) {
             Station tStation = new Station();
             tStation.setName(mCursor.getString(0));
