@@ -97,6 +97,16 @@ tools:context="mumbai.d360.activity.MainActivity">
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:visibility="gone"
+        android:layout_margin="32dp"
+        app:srcCompat="@drawable/ic_forum_post" />
+
 </android.support.design.widget.CoordinatorLayout>
 
     <com.arlib.floatingsearchview.FloatingSearchView
@@ -114,5 +124,8 @@ tools:context="mumbai.d360.activity.MainActivity">
         app:floatingSearch_searchHint="You are at ?"
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_suggestionsListAnimDuration="250"/>
+
+
+
 </RelativeLayout>
 

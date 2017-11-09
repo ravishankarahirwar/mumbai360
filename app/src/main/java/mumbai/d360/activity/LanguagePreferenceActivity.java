@@ -31,16 +31,15 @@ public class LanguagePreferenceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mPreference = SharedPreferenceManager.getPreference();
-        radioGroup = findViewById(R.id.languageGroup);
-        mHindi = findViewById(R.id.lan_hindi);
-        mEnglish = findViewById(R.id.lan_english);
-        mMarathi = findViewById(R.id.lan_marathi);
+        radioGroup = (RadioGroup)findViewById(R.id.languageGroup);
+        mHindi = (RadioButton) findViewById(R.id.lan_hindi);
+        mEnglish = (RadioButton) findViewById(R.id.lan_english);
+        mMarathi = (RadioButton) findViewById(R.id.lan_marathi);
 
         int languageId = mPreference.getLanguage();
         setUpView(languageId);
 
         if(mPreference.isNewUser()) {
-            mPreference.setNewUser(false);
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
                 @Override

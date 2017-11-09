@@ -26,6 +26,4 @@
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_suggestionsListAnimDuration="250"/>
 
-
-
 </RelativeLayout>

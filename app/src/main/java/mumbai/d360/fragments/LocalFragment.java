@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
@@ -38,6 +39,9 @@ import mumbai.d360.adapter.StationNameAdapter;
 import mumbai.d360.callbacks.OnStationSelect;
 import mumbai.d360.database.offlinedb.MessageDBAdapter;
 import mumbai.d360.dataprovider.search.SearchData;
+import mumbai.d360.forum.MainActivity;
+import mumbai.d360.forum.SignInActivity;
+import mumbai.d360.managers.PreferenceManager;
 import mumbai.d360.model.Station;
 import mumbai.d360.searchdata.SearchSuggestion;
 import mumbai.d360.searchdata.DataHelper;
@@ -68,7 +72,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
     private AppBarLayout mAppBar;
     private FloatingSearchView mSearchView;
     private SearchData mSearchData;
-
+    private PreferenceManager mPreference;
 
     public LocalFragment() {
         // Required empty public constructor
@@ -84,6 +88,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSearchData = new SearchData();
+        mPreference = PreferenceManager.getInstance(mContext);
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -102,6 +107,16 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_local, container, false);
         mSearchView =  rootView.findViewById(R.id.floating_search_view);
+
+        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, SignInActivity.class));
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+            }
+        });
 
         mAppBar = rootView.findViewById(R.id.appbar);
         mAppBar.addOnOffsetChangedListener(this);
@@ -135,7 +150,10 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
         mHarberLine.setAdapter(hrStationAdapter);
 
         setupSearchBar();
-        showHamburgerMenuPrompt(mSearchView);
+        if (mPreference.isNewUser()) {
+            mPreference.setNewUser(false);
+            showHamburgerMenuPrompt(mSearchView);
+        }
         return rootView;
     }
 

@@ -38,7 +38,9 @@ public class TrainScheduleActivityFragment extends Fragment {
     String trainShareSubject="";
     String trainSourceDestination;
     List<Train> singleTrainInfo = null;
-//    private ShareActionProvider mShareActionProvider;
+    List<Train> singleTrainInfo1 = null;
+
+    //    private ShareActionProvider mShareActionProvider;
     String stationName;
     TextView no,time,station;
     Typeface custom_font;
@@ -97,8 +99,17 @@ public class TrainScheduleActivityFragment extends Fragment {
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
         }else if(line == LineIndicator.HARBOUR && direction == Direction.UP){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
+            singleTrainInfo1 = mMessageDBAdapter.retriveSingleTrain(trainNo,line,Direction.DOWN);
+            if((!singleTrainInfo1.isEmpty()) && singleTrainInfo1.size() > 0 ) {
+                singleTrainInfo.addAll(singleTrainInfo1);
+            }
+
         }else if(line == LineIndicator.HARBOUR && direction == Direction.DOWN){
             singleTrainInfo= mMessageDBAdapter.retriveSingleTrain(trainNo,line,direction);
+            singleTrainInfo1 = mMessageDBAdapter.retriveSingleTrain(trainNo,line,Direction.UP);
+            if((!singleTrainInfo1.isEmpty()) && singleTrainInfo1.size() > 0 ) {
+                singleTrainInfo.addAll(singleTrainInfo1);
+            }
         }
         else if(line == LineIndicator.METRO && direction == Direction.UP){
             singleTrainInfo = mTrackTracerDataBaseAdapter.retriveSingleTrain(trainNo,LineIndicator.METRO,direction);

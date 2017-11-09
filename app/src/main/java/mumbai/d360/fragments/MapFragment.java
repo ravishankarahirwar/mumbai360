@@ -1,5 +1,6 @@
 package mumbai.d360.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +32,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mumbai.d360.R;
+import mumbai.d360.activity.MainActivity;
 import mumbai.d360.activity.UpDownActivity;
 import mumbai.d360.data.StationCollection;
 import mumbai.d360.database.offlinedb.MessageDBAdapter;
@@ -62,6 +67,7 @@ public class MapFragment extends BaseFragment {
     private Context mContext;
     private MessageDBAdapter mMessageDBAdapter;
     List<Station> combined;
+    private boolean isLocationPermissionGranted;
 
     public MapFragment() {
         // Required empty public constructor
@@ -81,6 +87,7 @@ public class MapFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSearchData = new SearchData();
+        isLocationPermissionGranted = false;
     }
 
     @Override
@@ -91,6 +98,30 @@ public class MapFragment extends BaseFragment {
 //        SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
 //        mapFragment.getMapAsync(this);
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                isLocationPermissionGranted = true;
+                if(googleMap != null) {
+                    googleMap.setMyLocationEnabled(true);
+                }
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                isLocationPermissionGranted = false;
+                Toast.makeText(mContext, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        };
+
+        TedPermission.with(mContext)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
 
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
@@ -122,6 +153,22 @@ public class MapFragment extends BaseFragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
+                if (isLocationPermissionGranted) {
+
+                }
+
+                if (mMapView != null &&
+                        mMapView.findViewById(Integer.parseInt("1")) != null) {
+                    // Get the button view
+                    View locationButton = ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+                    // and next place it, on bottom right (as Google Maps app)
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+                            locationButton.getLayoutParams();
+                    // position on right bottom
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+                    layoutParams.setMargins(0, 0, 30, 30);
+                }
 
                 StationCollection tStationCollection=new StationCollection();
                 List<Station> allLocalStationList=  tStationCollection.getAllStationLocationList();
@@ -187,6 +234,7 @@ public class MapFragment extends BaseFragment {
                         startUpDownActivity(station);
                     }
                 });
+
             }
         });
         setupSearchBar();

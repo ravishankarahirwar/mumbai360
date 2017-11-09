@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:title="Account" android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_reset_password"
+            android:icon="@drawable/ic_menu_reset_pass"
+            android:title="ResetPassword" />
+        <item
+            android:id="@+id/menu_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/contact_us"
+                android:icon="@drawable/ic_contactus"
+                android:title="Contactus" />
+        </menu>
+    </item>
+
+</menu>

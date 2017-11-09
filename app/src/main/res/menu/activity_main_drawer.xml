@@ -28,7 +28,7 @@
         <menu>
             <item
                 android:id="@+id/nav_language"
-                android:icon="@drawable/ic_language_black_24dp"
+                android:icon="@drawable/ic_languagedp"
                 android:title="Language" />
         </menu>
     </item>
