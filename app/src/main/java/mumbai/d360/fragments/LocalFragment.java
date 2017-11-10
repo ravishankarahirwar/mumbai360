@@ -29,6 +29,9 @@ import android.widget.Toast;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +76,7 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
     private FloatingSearchView mSearchView;
     private SearchData mSearchData;
     private PreferenceManager mPreference;
-
+    private AdView mAdView;
     public LocalFragment() {
         // Required empty public constructor
     }
@@ -107,6 +110,17 @@ public class LocalFragment extends BaseFragment implements AppBarLayout.OnOffset
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_local, container, false);
         mSearchView =  rootView.findViewById(R.id.floating_search_view);
+
+        MobileAds.initialize(mContext,"ca-app-pub-3940256099942544~3347511713");
+
+        try {
+            mAdView = rootView.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        } catch (Exception e) {
+
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

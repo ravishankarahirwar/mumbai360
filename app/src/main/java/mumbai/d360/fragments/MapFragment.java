@@ -206,7 +206,7 @@ public class MapFragment extends BaseFragment {
                 List<LatLng> metorStationLocations = new ArrayList<LatLng>();
                 for(int i=0; i < stations.size(); i++) {
                  Marker added =  googleMap.addMarker(new MarkerOptions().position(stations.get(i).getLocation())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
 //                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_name))
                             .title(stations.get(i).getName()));
                     metorStationLocations.add(stations.get(i).getLocation());
@@ -540,7 +540,6 @@ public class MapFragment extends BaseFragment {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-
                 if (listener != null) {
                     listener.onResults((List<Station>) results.values);
                 }
